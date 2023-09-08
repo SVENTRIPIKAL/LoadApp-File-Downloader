@@ -11,11 +11,9 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -35,7 +33,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var action: NotificationCompat.Action
 
 
-    // app permissions prompt -- saves user decision
+    /**
+     *  app permissions prompt -- saves user decision
+     */
     private var requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
@@ -44,23 +44,26 @@ class MainActivity : AppCompatActivity() {
 
             // send notification
             notificationManager.sendNotification(
-                getString(R.string.notification_description),
-                this
+                getString(R.string.notification_description), this
             )
         }
             // notify user permission required
-        else showSettingsDialog()
+        else
+            showSettingsDialog()
     }
 
 
-    // go to settings prompt -- navigates user to settings
+    /**
+     *  go to settings prompt -- navigates user to settings
+     */
     private var goToSettingsLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ){}
 
 
-
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    /**
+     *  oncreate function
+     */
     @SuppressLint("UnspecifiedRegisterReceiverFlag")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,7 +78,6 @@ class MainActivity : AppCompatActivity() {
         // register broadcast receiver
         registerReceiver(receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
 
-//         TODO: Implement code below
         // download button onclick listener
         binding.includeMain.customButton.setOnClickListener {
             download()
@@ -83,8 +85,9 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-
-    // assign & create notification services
+    /**
+     *  assign & create notification services
+     */
     private fun registerNotificationServices() {
 
         // retrieve os notification service
@@ -99,8 +102,10 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    // execute download service
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    /**
+     *  execute download service
+     */
+    @SuppressLint("InlinedApi")
     private fun download() {
 
         // launch permission prompt to enable notifications
@@ -108,7 +113,9 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    // check if API 26+ channel is enabled || API < 26 notifications enabled
+    /**
+     *  check if API 26+ channel is enabled || API < 26 notifications enabled
+     */
     private fun isDownloadChannelEnabled(): Boolean =
 
         // check if API 26+ -- channels required in API 26+
@@ -123,26 +130,34 @@ class MainActivity : AppCompatActivity() {
         } else NotificationManagerCompat.from(this).areNotificationsEnabled()
 
 
-    // settings dialog to navigate user to settings
+    /**
+     * settings dialog to navigate user to settings
+     */
     private fun showSettingsDialog() {
 
         // dialog builder
         val builder = AlertDialog.Builder(this)
 
         // title via API
-        val a = if (isNotificationChannelRequired()) getString(R.string.channel_name_download) else "Notifications"
+        val a = if (isNotificationChannelRequired())
+                        getString(R.string.channel_name_download)
+                else    getString(R.string.dialog_title_low_api)
 
         // title
-        builder.setTitle("$a Needed")
+        builder.setTitle(getString(R.string.dialog_title, a))
 
         // message via API
-        val b = if (isNotificationChannelRequired()) "channel" else "feature"
+        val b = if (isNotificationChannelRequired())
+                        getString(R.string.dialog_message_high_api)
+                else    getString(R.string.dialog_message_low_api)
 
         // message
-        builder.setMessage("${getString(R.string.app_name)} requests this $b be enabled in your app settings.")
+        builder.setMessage(
+            getString(R.string.dialog_message, getString(R.string.app_name), b)
+        )
 
         // accept & navigate user to settings
-        builder.setPositiveButton("GOTO SETTINGS") { dialog, _ ->
+        builder.setPositiveButton(getString(R.string.dialog_positive_text)) { dialog, _ ->
 
             dialog.dismiss()        // dismiss dialog
 
@@ -156,10 +171,13 @@ class MainActivity : AppCompatActivity() {
             } else {    // API < 26
 
                 // create uri
-                val uri = Uri.fromParts("package", packageName, null)
+                val uri = Uri.fromParts(
+                    getString(R.string.uri_scheme_low_api),
+                    packageName, null
+                )
 
                 // create app settings intent
-                Intent(Settings.ACTION_APPLICATION_SETTINGS, uri)
+                Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, uri)
             }
 
             // launch activity result with intent
@@ -167,7 +185,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         // decline & cancel dialog
-        builder.setNegativeButton("Cancel"){ dialog, _ ->
+        builder.setNegativeButton(getString(R.string.dialog_negative_text)){ dialog, _ ->
             dialog.cancel()
         }
 
@@ -175,8 +193,9 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-
-    // broadcast receiver
+    /**
+     *  download broadcast receiver
+     */
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             val id = intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
@@ -198,6 +217,9 @@ class MainActivity : AppCompatActivity() {
 //    }
 
 
+    /**
+     *  download links
+     */
     companion object {
         private const val URL =
             "https://github.com/udacity/nd940-c3-advanced-android-programming-project-starter/archive/master.zip"

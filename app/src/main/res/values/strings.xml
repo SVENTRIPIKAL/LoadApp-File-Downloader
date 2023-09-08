@@ -22,4 +22,14 @@
 
     <string name="toast_select_file">select a file to download</string>
     <string name="toast_click_button">click button</string>
+
+    <string name="dialog_title_low_api">Notifications</string>
+    <string name="dialog_title">%1$s Needed</string>
+    <string name="dialog_message_high_api">channel</string>
+    <string name="dialog_message_low_api">feature</string>
+    <string name="dialog_message">%1$s requests this %2$s be enabled in your app settings.</string>
+    <string name="dialog_positive_text">GOTO SETTINGS</string>
+    <string name="dialog_negative_text">Cancel</string>
+
+    <string name="uri_scheme_low_api">package</string>
 </resources>
