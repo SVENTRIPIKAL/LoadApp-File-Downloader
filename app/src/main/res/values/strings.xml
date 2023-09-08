@@ -8,9 +8,9 @@
     <string name="notification_description">The Project 3 repository is downloaded</string>
     <string name="notification_button">Check the status</string>
 
-    <string name="channel_id">channelId</string>
-    <string name="channel_name">Download Notifications</string>
-    <string name="channel_description">Channel for enabling download notifications</string>
+    <string name="channel_id_download">downloadChannelId</string>
+    <string name="channel_name_download">Download Notifications</string>
+    <string name="channel_description_download">Channel for enabling download notifications</string>
 
     <string name="button_name">Click Me</string>
     <string name="button_loading">We Are Loading</string>

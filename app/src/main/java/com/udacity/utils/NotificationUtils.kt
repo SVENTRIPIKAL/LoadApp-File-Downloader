@@ -9,6 +9,7 @@ import androidx.core.app.NotificationCompat
 import com.udacity.R
 
 private const val NOTIFICATION_ID = 0
+private const val POST_NOTIFICATIONS = "android.permission.POST_NOTIFICATIONS"
 
 /**
  * Extension function for sending notifications
@@ -26,7 +27,7 @@ fun NotificationManager.sendNotification(messageBody: String, applicationContext
      */
     val builder = NotificationCompat.Builder(
         applicationContext,
-        applicationContext.getString(R.string.channel_id)
+        applicationContext.getString(R.string.channel_id_download)
     )
         .setSmallIcon(R.drawable.ic_assistant_black_24dp)   // notification icon
         .setContentTitle(applicationContext.getString(R.string.notification_title)) // notification title
@@ -56,7 +57,7 @@ fun createChannel(context: Context, channelId: String, channelName: String) {
         notificationChannel.enableLights(true)
         notificationChannel.lightColor = Color.RED
         notificationChannel.enableVibration(true)
-        notificationChannel.description = context.getString(R.string.channel_description)
+        notificationChannel.description = context.getString(R.string.channel_description_download)
 
         // create notification manager & create channel
         val notificationManager = context.getSystemService(
