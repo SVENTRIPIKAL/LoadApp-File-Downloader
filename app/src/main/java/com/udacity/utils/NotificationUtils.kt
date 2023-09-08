@@ -8,7 +8,18 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.udacity.R
 
+
+/**
+ * notification id
+ */
 private const val NOTIFICATION_ID = 0
+
+
+/**
+ * check if current API 26+
+ */
+fun isNotificationChannelRequired() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
+
 
 /**
  * Extension function for sending notifications
@@ -43,7 +54,7 @@ fun NotificationManager.sendNotification(messageBody: String, applicationContext
 fun createChannel(context: Context, channelId: String, channelName: String) {
 
     // API 26+ needed for NotificationChannel
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+    if (isNotificationChannelRequired()) {
 
         // create notification channel [id, name, importance]
         val notificationChannel = NotificationChannel(
