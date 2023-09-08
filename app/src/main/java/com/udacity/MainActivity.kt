@@ -67,11 +67,22 @@ class MainActivity : AppCompatActivity() {
 //    }
 
     private fun download() {
-        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.sendNotification(
-            getString(R.string.notification_description),
-            this
-        )
+
+        // retrieve os notification service
+        notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+
+        // check if notifications are enabled
+        if (notificationManager.areNotificationsEnabled()) {
+
+            // send notification
+            notificationManager.sendNotification(
+                getString(R.string.notification_description),
+                this
+            )
+
+        } else {
+            println("Notifications are not enabled")
+        }
     }
 
     companion object {
