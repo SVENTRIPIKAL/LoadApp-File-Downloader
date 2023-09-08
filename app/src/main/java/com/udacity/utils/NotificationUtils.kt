@@ -9,7 +9,6 @@ import androidx.core.app.NotificationCompat
 import com.udacity.R
 
 private const val NOTIFICATION_ID = 0
-private const val POST_NOTIFICATIONS = "android.permission.POST_NOTIFICATIONS"
 
 /**
  * Extension function for sending notifications
