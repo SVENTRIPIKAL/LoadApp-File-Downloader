@@ -1,8 +1,11 @@
 package com.udacity.utils
 
+import android.app.DownloadManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import androidx.core.app.NotificationCompat
@@ -27,14 +30,19 @@ fun isNotificationChannelRequired() = Build.VERSION.SDK_INT >= Build.VERSION_COD
  */
 fun NotificationManager.sendNotification(messageBody: String, applicationContext: Context) {
 
-    /**
-     * Intents
-     */
+    // notification intents
+    val goToFileIntent = Intent(DownloadManager.ACTION_VIEW_DOWNLOADS)
+    val goToFilePendingIntent = PendingIntent.getActivity(
+        applicationContext,
+        NOTIFICATION_ID,
+        goToFileIntent,
+        PendingIntent.FLAG_IMMUTABLE or
+                PendingIntent.FLAG_UPDATE_CURRENT or
+                PendingIntent.FLAG_CANCEL_CURRENT
+    )
 
 
-    /**
-     * Notification builder
-     */
+    // notification builder
     val builder = NotificationCompat.Builder(
         applicationContext,
         applicationContext.getString(R.string.channel_id_download)
@@ -42,6 +50,8 @@ fun NotificationManager.sendNotification(messageBody: String, applicationContext
         .setSmallIcon(R.drawable.ic_assistant_black_24dp)   // notification icon
         .setContentTitle(applicationContext.getString(R.string.notification_title)) // notification title
         .setContentText(messageBody)    // notification message
+        .setContentIntent(goToFilePendingIntent)
+
 
     // apply build with notification id
     notify(NOTIFICATION_ID, builder.build())

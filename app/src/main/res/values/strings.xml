@@ -16,10 +16,6 @@
     <string name="button_loading">We Are Loading</string>
     <string name="download_complete">Download Complete</string>
 
-    <string name="retrofit_text">Retrofit - Type-safe HTTP client for Android and Java by Square, Inc</string>
-    <string name="loadapp_text">LoadApp - Current repository by Udacity</string>
-    <string name="glide_text">Glide - Image Loading Library by BumpTech</string>
-
     <string name="toast_select_file">select a file to download</string>
     <string name="toast_click_button">click button</string>
 
@@ -32,4 +28,12 @@
     <string name="dialog_negative_text">Cancel</string>
 
     <string name="uri_scheme_low_api">package</string>
+
+    <string name="glide_text">Glide - Image Loading Library by BumpTech</string>
+    <string name="loadapp_text">LoadApp - Current repository by Udacity</string>
+    <string name="retrofit_text">Retrofit - Type-safe HTTP client for Android and Java by Square, Inc</string>
+
+    <string name="url_glide">https://github.com/bumptech/glide/archive/refs/heads/master.zip</string>
+    <string name="url_loadApp">https://github.com/udacity/nd940-c3-advanced-android-programming-project-starter/archive/master.zip</string>
+    <string name="url_retrofit">https://github.com/square/retrofit/archive/refs/heads/master.zip</string>
 </resources>

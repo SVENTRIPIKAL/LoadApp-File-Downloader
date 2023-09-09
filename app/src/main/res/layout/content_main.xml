@@ -7,16 +7,69 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".MainActivity"
-    tools:showIn="@layout/activity_main">
+    tools:showIn="@layout/activity_main"
+    tools:ignore="hardcodedText" >
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="spread"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_launcher_background"
+        android:contentDescription="TO DO"  />
+
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        app:layout_constraintBottom_toTopOf="@+id/customButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:layout_constraintVertical_bias="0.5"
+        app:layout_constraintVertical_chainStyle="spread">
+
+        <RadioButton
+            android:id="@+id/radio_glide"
+            android:layout_width="290dp"
+            android:layout_height="60dp"
+            android:text="@string/glide_text"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/radio_loadApp"
+            android:layout_width="290dp"
+            android:layout_height="60dp"
+            android:text="@string/loadapp_text"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/radio_retrofit"
+            android:layout_width="290dp"
+            android:layout_height="60dp"
+            android:text="@string/retrofit_text"
+            android:textSize="16sp" />
+    </RadioGroup>
+
 
     <com.udacity.LoadingButton
-        android:id="@+id/custom_button"
-        android:layout_width="0dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/customButton"
+        android:layout_width="290dp"
         android:layout_height="60dp"
-        android:layout_margin="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup"
+        app:layout_constraintVertical_bias="0.5"
+        tools:background="@color/colorPrimary" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

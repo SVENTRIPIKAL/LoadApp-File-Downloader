@@ -4,33 +4,42 @@ import android.Manifest.permission.POST_NOTIFICATIONS
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.DownloadManager
+import android.app.DownloadManager.STATUS_FAILED
+import android.app.DownloadManager.STATUS_SUCCESSFUL
 import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.provider.Settings
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.udacity.databinding.ActivityMainBinding
 import com.udacity.utils.createChannel
 import com.udacity.utils.isNotificationChannelRequired
 import com.udacity.utils.sendNotification
+import kotlin.properties.Delegates
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    private var downloadID: Long = 0
+    private var urlDownloadId: Long = 0
+    private lateinit var downloadUrl: String
+    private lateinit var downloadManager: DownloadManager
 
     private lateinit var notificationManager: NotificationManager
-    private lateinit var pendingIntent: PendingIntent
-    private lateinit var action: NotificationCompat.Action
+//    private lateinit var pendingIntent: PendingIntent
+//    private lateinit var action: NotificationCompat.Action
+
+    private lateinit var fileNameExtra: String
+    private var statusExtra by Delegates.notNull<Boolean>()
 
 
     /**
@@ -42,13 +51,27 @@ class MainActivity : AppCompatActivity() {
         // permission granted & download channel enabled
         if (isGranted && isDownloadChannelEnabled()) {
 
-            // send notification
-            notificationManager.sendNotification(
-                getString(R.string.notification_description), this
-            )
+            Toast.makeText(this, "Downloading...", Toast.LENGTH_SHORT).show()
+
+
+            // file save directory
+            val path = getExternalFilesDir(null)?.absolutePath.plus("/")
+
+            // file extension & title
+            val ext = downloadUrl.substringAfterLast(".")
+            val title = fileNameExtra.substringBefore(" ").plus(".$ext")
+
+            // download query
+            val request = DownloadManager.Request( Uri.parse(downloadUrl) )
+                .setTitle(title)
+                .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, path)
+                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
+
+            // update downloadId
+            urlDownloadId = downloadManager.enqueue(request)
         }
-            // notify user permission required
-        else
+
+        else // notify permissions required
             showSettingsDialog()
     }
 
@@ -72,23 +95,31 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
 
-        //register notification services
-        registerNotificationServices()
+        //register download & notification services
+        registerSystemServices()
 
         // register broadcast receiver
         registerReceiver(receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
 
-        // download button onclick listener
-        binding.includeMain.customButton.setOnClickListener {
-            download()
-        }
+        // register ui listeners
+        setUIListeners()
+
+        // inform user to make a selection
+        Toast.makeText(
+            this,
+            getString(R.string.toast_select_file),
+            Toast.LENGTH_LONG
+        ).show()
     }
 
 
     /**
-     *  assign & create notification services
+     *  assign & create download & notification services
      */
-    private fun registerNotificationServices() {
+    private fun registerSystemServices() {
+
+        // retrieve os download service
+        downloadManager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
 
         // retrieve os notification service
         notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
@@ -99,6 +130,61 @@ class MainActivity : AppCompatActivity() {
             getString(R.string.channel_id_download),
             getString(R.string.channel_name_download)
         )
+    }
+
+
+    /**
+     *  set listeners for UI
+     */
+    private fun setUIListeners() {
+
+        binding.includeMain.apply {
+
+            // radio group listener
+            radioGroup.setOnCheckedChangeListener { _, _ ->
+
+                // allow downloads upon selection / reset button UI
+                customButton.isClickable = true
+//                customButton.resetButtonUI() // reset button animation
+
+                radioGroup.apply {
+                    when(checkedRadioButtonId) {
+                        radioGlide.id -> {      // Glide radio button
+                            fileNameExtra = radioGlide.text.toString()
+                            downloadUrl = getString(R.string.url_glide)
+                            statusExtra = true
+                            println(fileNameExtra)
+                        }
+                        radioLoadApp.id -> {      // LoadApp radio button
+                            fileNameExtra = radioLoadApp.text.toString()
+                            downloadUrl = getString(R.string.url_loadApp)
+                            statusExtra = true
+                            println(fileNameExtra)
+                        }
+                        radioRetrofit.id -> {      // Retrofit radio button
+                            fileNameExtra = radioRetrofit.text.toString()
+                            downloadUrl = getString(R.string.url_retrofit)
+                            statusExtra = true
+                            println(fileNameExtra)
+                        }
+                    }
+                }
+
+                // inform user to click download button
+                Toast.makeText(
+                    this@MainActivity,
+                    getString(R.string.toast_click_button),
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                // set listener for button
+                customButton.setOnClickListener {
+
+//                    customButton.isClickable = false // disable clicks until animation finishes
+                    download() // run download function
+                }
+            }
+        }
     }
 
 
@@ -197,31 +283,40 @@ class MainActivity : AppCompatActivity() {
      *  download broadcast receiver
      */
     private val receiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            val id = intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
+
+        // on download complete
+        @SuppressLint("Range")
+        override fun onReceive(context: Context, intent: Intent) {
+
+            val cursor: Cursor = downloadManager.query(DownloadManager.Query().setFilterById(urlDownloadId))
+
+            val downloadID = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
+
+            println("$urlDownloadId     $downloadID")
+
+
+            // check download id and status of file
+            if (downloadID == urlDownloadId && cursor.moveToNext()) {
+
+                val downloadSTATUS = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS))
+                cursor.close()
+
+                downloadManager.apply {
+
+                    when(downloadSTATUS) {
+
+                        STATUS_SUCCESSFUL -> {  // send notification
+                            notificationManager.sendNotification(
+                                getString(R.string.notification_description), context
+                            )
+                        }
+
+                        STATUS_FAILED -> {  // display toast
+                            Toast.makeText(context, "Download Failed...", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            }
         }
-    }
-
-//    private fun download() {
-//        val request =
-//            DownloadManager.Request(Uri.parse(URL))
-//                .setTitle(getString(R.string.app_name))
-//                .setDescription(getString(R.string.app_description))
-//                .setRequiresCharging(false)
-//                .setAllowedOverMetered(true)
-//                .setAllowedOverRoaming(true)
-//
-//        val downloadManager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
-//        downloadID =
-//            downloadManager.enqueue(request)// enqueue puts the download request in the queue.
-//    }
-
-
-    /**
-     *  download links
-     */
-    companion object {
-        private const val URL =
-            "https://github.com/udacity/nd940-c3-advanced-android-programming-project-starter/archive/master.zip"
     }
 }
