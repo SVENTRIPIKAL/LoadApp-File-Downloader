@@ -51,23 +51,20 @@ class MainActivity : AppCompatActivity() {
         // permission granted & download channel enabled
         if (isGranted && isDownloadChannelEnabled()) {
 
+            // inform downloading executed
             Toast.makeText(this, "Downloading...", Toast.LENGTH_SHORT).show()
 
-
-            // file save directory
-            val path = getExternalFilesDir(null)?.absolutePath.plus("/")
-
-            // file extension & title
+            // extract file extension & title
             val ext = downloadUrl.substringAfterLast(".")
             val title = fileNameExtra.substringBefore(" ").plus(".$ext")
 
-            // download query
+            // download query   [set title, directory, visibility]
             val request = DownloadManager.Request( Uri.parse(downloadUrl) )
                 .setTitle(title)
-                .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, path)
+                .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, title)
                 .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
 
-            // update downloadId
+            // que download & update downloadId
             urlDownloadId = downloadManager.enqueue(request)
         }
 
@@ -90,6 +87,7 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("UnspecifiedRegisterReceiverFlag")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
@@ -117,7 +115,6 @@ class MainActivity : AppCompatActivity() {
      *  assign & create download & notification services
      */
     private fun registerSystemServices() {
-
         // retrieve os download service
         downloadManager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
 
@@ -137,7 +134,7 @@ class MainActivity : AppCompatActivity() {
      *  set listeners for UI
      */
     private fun setUIListeners() {
-
+        // main layout bindings
         binding.includeMain.apply {
 
             // radio group listener
@@ -149,23 +146,23 @@ class MainActivity : AppCompatActivity() {
 
                 radioGroup.apply {
                     when(checkedRadioButtonId) {
-                        radioGlide.id -> {      // Glide radio button
-                            fileNameExtra = radioGlide.text.toString()
-                            downloadUrl = getString(R.string.url_glide)
-                            statusExtra = true
-                            println(fileNameExtra)
+                        radioGlide.id -> {          // Glide radio button
+                            updateDownloadInfo(
+                                radioGlide.text.toString(),
+                                getString(R.string.url_glide),
+                            )
                         }
-                        radioLoadApp.id -> {      // LoadApp radio button
-                            fileNameExtra = radioLoadApp.text.toString()
-                            downloadUrl = getString(R.string.url_loadApp)
-                            statusExtra = true
-                            println(fileNameExtra)
+                        radioLoadApp.id -> {        // LoadApp radio button
+                            updateDownloadInfo(
+                                radioLoadApp.text.toString(),
+                                getString(R.string.url_loadApp)
+                            )
                         }
-                        radioRetrofit.id -> {      // Retrofit radio button
-                            fileNameExtra = radioRetrofit.text.toString()
-                            downloadUrl = getString(R.string.url_retrofit)
-                            statusExtra = true
-                            println(fileNameExtra)
+                        radioRetrofit.id -> {       // Retrofit radio button
+                            updateDownloadInfo(
+                                radioRetrofit.text.toString(),
+                                getString(R.string.url_retrofit)
+                            )
                         }
                     }
                 }
@@ -189,11 +186,22 @@ class MainActivity : AppCompatActivity() {
 
 
     /**
+     *  assign download information
+     *  according to radio button choice
+     */
+    private fun updateDownloadInfo(fileName: String, url: String) {
+        fileNameExtra = fileName
+        downloadUrl = url
+        statusExtra = true
+        println(fileNameExtra)
+    }
+
+
+    /**
      *  execute download service
      */
     @SuppressLint("InlinedApi")
     private fun download() {
-
         // launch permission prompt to enable notifications
         requestPermissionLauncher.launch(POST_NOTIFICATIONS)
     }
@@ -203,7 +211,6 @@ class MainActivity : AppCompatActivity() {
      *  check if API 26+ channel is enabled || API < 26 notifications enabled
      */
     private fun isDownloadChannelEnabled(): Boolean =
-
         // check if API 26+ -- channels required in API 26+
         if (isNotificationChannelRequired()) {
 
@@ -220,7 +227,6 @@ class MainActivity : AppCompatActivity() {
      * settings dialog to navigate user to settings
      */
     private fun showSettingsDialog() {
-
         // dialog builder
         val builder = AlertDialog.Builder(this)
 
