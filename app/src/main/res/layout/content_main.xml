@@ -41,21 +41,21 @@
             android:id="@+id/radio_glide"
             android:layout_width="290dp"
             android:layout_height="60dp"
-            android:text="@string/glide_text"
+            android:text="@string/text_glide"
             android:textSize="16sp" />
 
         <RadioButton
             android:id="@+id/radio_loadApp"
             android:layout_width="290dp"
             android:layout_height="60dp"
-            android:text="@string/loadapp_text"
+            android:text="@string/text_loadapp"
             android:textSize="16sp" />
 
         <RadioButton
             android:id="@+id/radio_retrofit"
             android:layout_width="290dp"
             android:layout_height="60dp"
-            android:text="@string/retrofit_text"
+            android:text="@string/text_retrofit"
             android:textSize="16sp" />
     </RadioGroup>
 

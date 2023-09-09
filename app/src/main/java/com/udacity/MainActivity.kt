@@ -1,6 +1,7 @@
 package com.udacity
 
 import android.Manifest.permission.POST_NOTIFICATIONS
+import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.DownloadManager
@@ -30,7 +31,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    private var urlDownloadId: Long = 0
+    private var downloadFileId: Long = 0
     private lateinit var downloadUrl: String
     private lateinit var downloadManager: DownloadManager
 
@@ -39,7 +40,8 @@ class MainActivity : AppCompatActivity() {
 //    private lateinit var action: NotificationCompat.Action
 
     private lateinit var fileNameExtra: String
-    private var statusExtra by Delegates.notNull<Boolean>()
+    private lateinit var fileSaveDirectory: String
+    private var fileStatusExtra by Delegates.notNull<Boolean>()
 
 
     /**
@@ -58,14 +60,15 @@ class MainActivity : AppCompatActivity() {
             val ext = downloadUrl.substringAfterLast(".")
             val title = fileNameExtra.substringBefore(" ").plus(".$ext")
 
-            // download query   [set title, directory, visibility]
+            // download query   [set title, description, directory, visibility]
             val request = DownloadManager.Request( Uri.parse(downloadUrl) )
                 .setTitle(title)
+                .setDescription(downloadUrl)
                 .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, title)
                 .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
 
             // que download & update downloadId
-            urlDownloadId = downloadManager.enqueue(request)
+            downloadFileId = downloadManager.enqueue(request)
         }
 
         else // notify permissions required
@@ -106,7 +109,7 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText(
             this,
             getString(R.string.toast_select_file),
-            Toast.LENGTH_LONG
+            Toast.LENGTH_SHORT
         ).show()
     }
 
@@ -115,6 +118,13 @@ class MainActivity : AppCompatActivity() {
      *  assign & create download & notification services
      */
     private fun registerSystemServices() {
+        // assign file save location
+        fileSaveDirectory = getString(
+            R.string.file_save_directory,
+            Environment.getExternalStorageDirectory(),
+            Environment.DIRECTORY_DOWNLOADS
+        )
+
         // retrieve os download service
         downloadManager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
 
@@ -192,18 +202,20 @@ class MainActivity : AppCompatActivity() {
     private fun updateDownloadInfo(fileName: String, url: String) {
         fileNameExtra = fileName
         downloadUrl = url
-        statusExtra = true
+        fileStatusExtra = true
         println(fileNameExtra)
     }
 
 
     /**
-     *  execute download service
+     *  check if API 26+ in order to request Notification
+     *  permissions / else request Write permissions
      */
     @SuppressLint("InlinedApi")
     private fun download() {
-        // launch permission prompt to enable notifications
-        requestPermissionLauncher.launch(POST_NOTIFICATIONS)
+        if (isNotificationChannelRequired()) {
+            requestPermissionLauncher.launch(POST_NOTIFICATIONS)
+        } else requestPermissionLauncher.launch(WRITE_EXTERNAL_STORAGE)
     }
 
 
@@ -224,7 +236,9 @@ class MainActivity : AppCompatActivity() {
 
 
     /**
-     * settings dialog to navigate user to settings
+     *  dialog that helps navigate user to
+     *  settings in order to enable the
+     *  app's needed permission
      */
     private fun showSettingsDialog() {
         // dialog builder
@@ -294,15 +308,15 @@ class MainActivity : AppCompatActivity() {
         @SuppressLint("Range")
         override fun onReceive(context: Context, intent: Intent) {
 
-            val cursor: Cursor = downloadManager.query(DownloadManager.Query().setFilterById(urlDownloadId))
+            val cursor: Cursor = downloadManager.query(DownloadManager.Query().setFilterById(downloadFileId))
 
-            val downloadID = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
+            val downloadId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
 
-            println("$urlDownloadId     $downloadID")
+            println("$downloadFileId     $downloadId")
 
 
             // check download id and status of file
-            if (downloadID == urlDownloadId && cursor.moveToNext()) {
+            if (downloadId == downloadFileId && cursor.moveToNext()) {
 
                 val downloadSTATUS = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS))
                 cursor.close()
@@ -311,13 +325,20 @@ class MainActivity : AppCompatActivity() {
 
                     when(downloadSTATUS) {
 
-                        STATUS_SUCCESSFUL -> {  // send notification
+                        STATUS_SUCCESSFUL -> {  // display toast save directory & send notification
+
+                            Toast.makeText(
+                                context,
+                                getString(R.string.toast_file_saved, fileSaveDirectory),
+                                Toast.LENGTH_SHORT
+                            ).show()
+
                             notificationManager.sendNotification(
                                 getString(R.string.notification_description), context
                             )
                         }
 
-                        STATUS_FAILED -> {  // display toast
+                        STATUS_FAILED -> {  // display failure toast
                             Toast.makeText(context, "Download Failed...", Toast.LENGTH_SHORT).show()
                         }
                     }
