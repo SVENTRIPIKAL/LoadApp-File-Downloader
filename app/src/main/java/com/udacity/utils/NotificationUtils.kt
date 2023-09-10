@@ -38,6 +38,7 @@ fun NotificationManager.sendNotification(
 
     // go to file intent -- notification content click
     val goToFileIntent = Intent(DownloadManager.ACTION_VIEW_DOWNLOADS)
+        .addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)    // bring activity to front if already created
     val goToFilePendingIntent = PendingIntent.getActivity(
         context,
         NOTIFICATION_ID,
@@ -53,6 +54,7 @@ fun NotificationManager.sendNotification(
         .putExtra(NOTIFICATION_ID.toString(), NOTIFICATION_ID)
         .putExtra(FILE_STATUS_EXTRA, fileStatusExtra)
         .putExtra(FILE_NAME_EXTRA, fileNameExtra)
+        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)       // clear stack up to this activity & start new
     val detailActivityPendingIntent = PendingIntent.getActivity(
         context,
         NOTIFICATION_ID,
@@ -71,8 +73,8 @@ fun NotificationManager.sendNotification(
         .setSmallIcon(R.drawable.ic_assistant_black_24dp)   // notification icon
         .setContentTitle(context.getString(R.string.notification_title)) // notification title
         .setContentText(messageBody)    // notification message
-        .setContentIntent(goToFilePendingIntent)    // notification content click redirect
-        .addAction(     // action button click redirect
+        .setContentIntent(goToFilePendingIntent)    // notification content click -- redirects to downloads
+        .addAction(     // action button click -- redirects to detail screen
             R.drawable.ic_assistant_black_24dp,
             context.getString(R.string.notification_button),
             detailActivityPendingIntent

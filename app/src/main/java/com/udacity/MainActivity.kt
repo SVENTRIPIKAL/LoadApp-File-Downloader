@@ -36,8 +36,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var downloadManager: DownloadManager
 
     private lateinit var notificationManager: NotificationManager
-//    private lateinit var pendingIntent: PendingIntent
-//    private lateinit var action: NotificationCompat.Action
 
     private lateinit var fileNameExtra: String
     private lateinit var fileSaveDirectory: String
@@ -131,7 +129,7 @@ class MainActivity : AppCompatActivity() {
         // retrieve os notification service
         notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
 
-        // create download notification channel -- if needed
+        // create download notification channel -- if API 26+
         createChannel(
             this,
             getString(R.string.channel_id_download),
@@ -202,7 +200,6 @@ class MainActivity : AppCompatActivity() {
     private fun updateDownloadInfo(fileName: String, url: String) {
         fileNameExtra = fileName
         downloadUrl = url
-        fileStatusExtra = true
         println(fileNameExtra)
     }
 
@@ -304,13 +301,14 @@ class MainActivity : AppCompatActivity() {
      */
     private val receiver = object : BroadcastReceiver() {
 
-        // on download complete
+        // on download completed
         @SuppressLint("Range")
         override fun onReceive(context: Context, intent: Intent) {
 
             val cursor: Cursor = downloadManager.query(DownloadManager.Query().setFilterById(downloadFileId))
 
             val downloadId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
+
 
             println("$downloadFileId     $downloadId")
 
@@ -325,26 +323,41 @@ class MainActivity : AppCompatActivity() {
 
                     when(downloadSTATUS) {
 
-                        STATUS_SUCCESSFUL -> {  // display toast save directory & send notification
+                        STATUS_SUCCESSFUL -> {  // update status extra & display save directory
 
-                            Toast.makeText(
+                            updateDownloadStatus(
                                 context,
-                                getString(R.string.toast_file_saved, fileSaveDirectory),
-                                Toast.LENGTH_SHORT
-                            ).show()
-
-                            notificationManager.sendNotification(
-                                getString(R.string.notification_description), context,
-                                fileNameExtra, fileStatusExtra
+                                true,
+                                getString(R.string.toast_file_saved, fileSaveDirectory)
                             )
                         }
 
-                        STATUS_FAILED -> {  // display failure toast
-                            Toast.makeText(context, "Download Failed...", Toast.LENGTH_SHORT).show()
+                        STATUS_FAILED -> {  // update status extra & display failure toast
+
+                            updateDownloadStatus(
+                                context,
+                                false,
+                                getString(R.string.toast_download_failed)
+                            )
                         }
                     }
                 }
+
+                // post notification
+                notificationManager.sendNotification(
+                    getString(R.string.notification_description), context,
+                    fileNameExtra, fileStatusExtra
+                )
             }
         }
+    }
+
+
+    /**
+     *  updates file download status and creates toast according to success
+     */
+    private fun updateDownloadStatus(context: Context, status: Boolean, toastText: String){
+        fileStatusExtra = status
+        Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show()
     }
 }

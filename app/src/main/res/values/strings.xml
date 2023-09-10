@@ -19,6 +19,7 @@
     <string name="toast_select_file">select a file to download</string>
     <string name="toast_click_button">click button</string>
     <string name="toast_file_saved">file saved to %1$s</string>
+    <string name="toast_download_failed">download failed…</string>
 
     <string name="dialog_title_low_api">Storage Permission</string>
     <string name="dialog_title">%1$s Needed</string>
@@ -38,5 +39,7 @@
     <string name="url_loadApp">https://github.com/udacity/nd940-c3-advanced-android-programming-project-starter/archive/master.zip</string>
     <string name="url_retrofit">https://github.com/square/retrofit/archive/refs/heads/master.zip</string>
 
+    <string name="file_status_fail">Fail</string>
+    <string name="file_status_success">Success</string>
     <string name="file_save_directory">%1$s/%2$s</string>
 </resources>

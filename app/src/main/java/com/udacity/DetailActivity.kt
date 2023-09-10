@@ -1,17 +1,17 @@
 package com.udacity
 
-import android.annotation.SuppressLint
+import android.app.NotificationManager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.udacity.databinding.ActivityDetailBinding
 import com.udacity.utils.FILE_NAME_EXTRA
 import com.udacity.utils.FILE_STATUS_EXTRA
+import com.udacity.utils.NOTIFICATION_ID
 
 class DetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailBinding
 
-    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -20,27 +20,29 @@ class DetailActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
 
-//        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-
         // dismiss notification
-//        intent.extras?.getInt(NOTIFICATION_ID.toString())?.let { notificationManager.cancel(it) }
-
-        // print to console filename
-        intent.extras?.getString(FILE_NAME_EXTRA).let { println(it) }
+        intent.extras?.getInt(NOTIFICATION_ID.toString())?.let {
+            val notificationManager =
+                getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.cancel(it)
+        }
 
         // assign file name to textView
-        binding.contentDetailActivity.fileNameText.text = intent.extras?.getString(FILE_NAME_EXTRA) ?: "NULL"
+        intent.extras?.getString(FILE_NAME_EXTRA).let {
+            binding.contentDetailActivity.fileNameText.text = it
+            println(it)
+        }
 
         // assign file status to textView
         binding.contentDetailActivity.statusText.apply {
 
             when(intent.extras?.getBoolean(FILE_STATUS_EXTRA)){
                 true -> {
-                    text = "Success"
+                    text = getString(R.string.file_status_success)
                     setTextColor( getColor(R.color.green) )
                 }
                 else -> {
-                    text = "Fail"
+                    text = getString(R.string.file_status_fail)
                     setTextColor( getColor(R.color.red) )
                 }
             }
