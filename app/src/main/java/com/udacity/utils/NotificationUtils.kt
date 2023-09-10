@@ -9,13 +9,16 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import androidx.core.app.NotificationCompat
+import com.udacity.DetailActivity
 import com.udacity.R
 
 
 /**
  * notification id
  */
-private const val NOTIFICATION_ID = 0
+const val NOTIFICATION_ID = 0
+const val FILE_NAME_EXTRA = "fileNameExtra"
+const val FILE_STATUS_EXTRA = "fileStatusExtra"
 
 
 /**
@@ -28,12 +31,15 @@ fun isNotificationChannelRequired() = Build.VERSION.SDK_INT >= Build.VERSION_COD
  * Extension function for sending notifications
  * USES-PERMISSION: POST_NOTIFICATIONS
  */
-fun NotificationManager.sendNotification(messageBody: String, applicationContext: Context) {
+fun NotificationManager.sendNotification(
+    messageBody: String, context: Context,
+    fileNameExtra: String, fileStatusExtra: Boolean
+) {
 
-    // notification intents
+    // go to file intent -- notification content click
     val goToFileIntent = Intent(DownloadManager.ACTION_VIEW_DOWNLOADS)
     val goToFilePendingIntent = PendingIntent.getActivity(
-        applicationContext,
+        context,
         NOTIFICATION_ID,
         goToFileIntent,
         PendingIntent.FLAG_IMMUTABLE or
@@ -42,15 +48,35 @@ fun NotificationManager.sendNotification(messageBody: String, applicationContext
     )
 
 
+    // go to detail activity intent -- action button click
+    val detailActivityIntent = Intent(context, DetailActivity::class.java)
+        .putExtra(NOTIFICATION_ID.toString(), NOTIFICATION_ID)
+        .putExtra(FILE_STATUS_EXTRA, fileStatusExtra)
+        .putExtra(FILE_NAME_EXTRA, fileNameExtra)
+    val detailActivityPendingIntent = PendingIntent.getActivity(
+        context,
+        NOTIFICATION_ID,
+        detailActivityIntent,
+        PendingIntent.FLAG_IMMUTABLE or
+                PendingIntent.FLAG_UPDATE_CURRENT or
+                PendingIntent.FLAG_CANCEL_CURRENT
+    )
+
+
     // notification builder
     val builder = NotificationCompat.Builder(
-        applicationContext,
-        applicationContext.getString(R.string.channel_id_download)
+        context,
+        context.getString(R.string.channel_id_download)
     )
         .setSmallIcon(R.drawable.ic_assistant_black_24dp)   // notification icon
-        .setContentTitle(applicationContext.getString(R.string.notification_title)) // notification title
+        .setContentTitle(context.getString(R.string.notification_title)) // notification title
         .setContentText(messageBody)    // notification message
-        .setContentIntent(goToFilePendingIntent)
+        .setContentIntent(goToFilePendingIntent)    // notification content click redirect
+        .addAction(     // action button click redirect
+            R.drawable.ic_assistant_black_24dp,
+            context.getString(R.string.notification_button),
+            detailActivityPendingIntent
+        )
 
 
     // apply build with notification id
@@ -63,7 +89,7 @@ fun NotificationManager.sendNotification(messageBody: String, applicationContext
  */
 fun createChannel(context: Context, channelId: String, channelName: String) {
 
-    // API 26+ needed for NotificationChannel
+    // API 26+ require NotificationChannels
     if (isNotificationChannelRequired()) {
 
         // create notification channel [id, name, importance]

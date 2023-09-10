@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
         // permission granted & download channel enabled
         if (isGranted && isDownloadChannelEnabled()) {
 
-            // inform downloading executed
+            // inform download initiated
             Toast.makeText(this, "Downloading...", Toast.LENGTH_SHORT).show()
 
             // extract file extension & title
@@ -334,7 +334,8 @@ class MainActivity : AppCompatActivity() {
                             ).show()
 
                             notificationManager.sendNotification(
-                                getString(R.string.notification_description), context
+                                getString(R.string.notification_description), context,
+                                fileNameExtra, fileStatusExtra
                             )
                         }
 

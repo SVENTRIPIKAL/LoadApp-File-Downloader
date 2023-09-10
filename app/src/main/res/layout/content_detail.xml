@@ -6,6 +6,54 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".DetailActivity"
+    tools:ignore="hardcodedtext"
     tools:showIn="@layout/activity_detail">
+
+
+    <TextView
+        android:id="@+id/fileNameHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="60dp"
+        android:text="File name:"
+        app:layout_constraintBottom_toTopOf="@+id/statusHeader"
+        app:layout_constraintEnd_toStartOf="@+id/fileNameText"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/fileNameText"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/fileNameHeader"
+        app:layout_constraintTop_toTopOf="@+id/fileNameHeader"
+        tools:text="Retrofit - Type-safe HTTP client for Android and Java by Square, Inc" />
+
+    <TextView
+        android:id="@+id/statusHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="120dp"
+        android:text="Status:"
+        app:layout_constraintEnd_toEndOf="@+id/fileNameHeader"
+        app:layout_constraintTop_toBottomOf="@+id/fileNameHeader" />
+
+    <TextView
+        android:id="@+id/statusText"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        app:layout_constraintStart_toEndOf="@+id/statusHeader"
+        app:layout_constraintStart_toStartOf="@+id/fileNameText"
+        app:layout_constraintTop_toTopOf="@+id/statusHeader"
+        tools:text="Success"
+        tools:textColor="@color/green" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
