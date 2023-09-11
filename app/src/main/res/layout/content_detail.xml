@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".DetailActivity"
-    tools:ignore="hardcodedtext"
     tools:showIn="@layout/activity_detail">
 
 
@@ -17,7 +16,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="60dp"
         android:layout_marginEnd="60dp"
-        android:text="File name:"
+        android:text="@string/header_filename"
         app:layout_constraintBottom_toTopOf="@+id/statusHeader"
         app:layout_constraintEnd_toStartOf="@+id/fileNameText"
         app:layout_constraintHorizontal_bias="0.5"
@@ -41,7 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="120dp"
-        android:text="Status:"
+        android:text="@string/header_status"
         app:layout_constraintEnd_toEndOf="@+id/fileNameHeader"
         app:layout_constraintTop_toBottomOf="@+id/fileNameHeader" />
 
