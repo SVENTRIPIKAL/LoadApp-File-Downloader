@@ -52,11 +52,13 @@ class MainActivity : AppCompatActivity() {
         if (isGranted && isDownloadChannelEnabled()) {
 
             // inform download initiated
-            Toast.makeText(this, "Downloading...", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.toast_downloading), Toast.LENGTH_SHORT).show()
 
             // extract file extension & title
-            val ext = downloadUrl.substringAfterLast(".")
-            val title = fileNameExtra.substringBefore(" ").plus(".$ext")
+            val space = getString(R.string.text_space)
+            val period = getString(R.string.text_period)
+            val ext = downloadUrl.substringAfterLast(period)
+            val title = fileNameExtra.substringBefore(space).plus("$period$ext")
 
             // download query   [set title, description, directory, visibility]
             val request = DownloadManager.Request( Uri.parse(downloadUrl) )
