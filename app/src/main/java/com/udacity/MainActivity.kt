@@ -115,6 +115,50 @@ class MainActivity : AppCompatActivity() {
 
 
     /**
+     *  override of the OS back button
+     *  to allow exiting of the app
+     *  via a dialog confirmation sequence
+     */
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        showExitDialog()
+    }
+
+
+    /**
+     *  dialog that prevents the user
+     *  from accidentally exiting the
+     *  app via the OS back button
+     */
+    private fun showExitDialog() {
+
+        // dialog builder
+        val builder = AlertDialog.Builder(this)
+
+        // title
+        builder.setTitle(getString(R.string.dialog_exit_title))
+        // message
+        builder.setMessage(getString(R.string.dialog_exit_message))
+
+        // exit choice
+        builder.setPositiveButton(getString(R.string.dialog_exit_positive)) { dialog, _ ->
+            dialog.dismiss()    // dismiss the dialog
+
+            // exit the app
+            onBackPressedDispatcher.onBackPressed()
+        }
+
+        // cancel choice
+        builder.setNegativeButton(getString(R.string.dialog_exit_negative)) { dialog, _ ->
+            dialog.cancel() // close the dialog
+        }
+
+        // show dialog
+        builder.show()
+    }
+
+
+    /**
      *  assign & create download & notification services
      */
     private fun registerSystemServices() {

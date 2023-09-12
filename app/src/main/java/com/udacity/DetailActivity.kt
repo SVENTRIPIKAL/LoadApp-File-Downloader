@@ -54,4 +54,14 @@ class DetailActivity : AppCompatActivity() {
             onBackPressedDispatcher.onBackPressed()
         }
     }
+
+
+    /**
+     *  override of the OS back button
+     *  to disable functionality
+     */
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        // do nothing when OS back is pressed - returning is done via FAB
+    }
 }
