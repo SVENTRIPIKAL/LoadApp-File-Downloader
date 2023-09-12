@@ -33,7 +33,7 @@ class DetailActivity : AppCompatActivity() {
             println(it)
         }
 
-        // assign file status to textView
+        // assign file status and color to textView
         binding.contentDetailActivity.statusText.apply {
 
             when(intent.extras?.getBoolean(FILE_STATUS_EXTRA)){
@@ -46,6 +46,12 @@ class DetailActivity : AppCompatActivity() {
                     setTextColor( getColor(R.color.red) )
                 }
             }
+        }
+
+        // assign FAB button click listener
+        binding.extendedFab.setOnClickListener {
+            // activate return to prior screen as a back press
+            onBackPressedDispatcher.onBackPressed()
         }
     }
 }

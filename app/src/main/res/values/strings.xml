@@ -15,6 +15,7 @@
     <string name="button_name">Click Me</string>
     <string name="button_loading">We Are Loading</string>
     <string name="button_download_complete">Download Complete</string>
+    <string name="button_return_description">Return button</string>
 
     <string name="toast_select_file">select a file to download</string>
     <string name="toast_click_button">click button</string>
@@ -32,6 +33,7 @@
 
     <string name="uri_scheme_low_api">package</string>
 
+    <string name="text_return">RETURN</string>
     <string name="text_period">.</string>
     <string name="text_space">" "</string>
     <string name="text_glide">Glide - Image Loading Library by BumpTech</string>
@@ -46,7 +48,7 @@
     <string name="file_status_success">Success</string>
     <string name="file_save_directory">%1$s/%2$s</string>
 
-    <string name="image_description">purple cloud with arrow in center pointing down</string>
+    <string name="main_image_description">purple cloud with arrow in center pointing down</string>
 
     <string name="header_filename">File name:</string>
     <string name="header_status">Status:</string>

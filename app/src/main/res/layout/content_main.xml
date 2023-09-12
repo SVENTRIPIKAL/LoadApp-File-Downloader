@@ -20,7 +20,7 @@
         app:layout_constraintVertical_chainStyle="spread"
         android:scaleType="centerCrop"
         android:src="@drawable/download_photo"
-        android:contentDescription="@string/image_description"  />
+        android:contentDescription="@string/main_image_description"  />
 
 
     <RadioGroup
