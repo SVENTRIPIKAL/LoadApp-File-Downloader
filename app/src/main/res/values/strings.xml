@@ -22,20 +22,25 @@
     <string name="toast_file_saved">File Saved To %1$s</string>
     <string name="toast_download_failed">Download Failed…</string>
     <string name="toast_downloading">Downloading…</string>
-    <string name="toast_no_file_url">HTTP 404…Resource Was Not Found</string>
-    <string name="toast_invalid_url">Bad Request…Invalid Web Address</string>
+    <string name="toast_unknown_host_exception">Unknown Host…Address Does Not Exist</string>
+    <string name="toast_malformed_url_exception">Malformed Url…No DNS Protocol Exists</string>
+    <string name="toast_http_response">HTTP Response - %1$s</string>
 
-    <string name="dialog_title_low_api">Storage Permission</string>
     <string name="dialog_title">%1$s Needed</string>
+    <string name="dialog_title_low_api">Storage Permission</string>
+    <string name="dialog_title_exit">Close the session?</string>
+    <string name="dialog_title_custom_url">Enter Your Url</string>
+
+    <string name="dialog_message">%1$s requests this %2$s be enabled in your app settings.</string>
     <string name="dialog_message_high_api">channel</string>
     <string name="dialog_message_low_api">feature</string>
-    <string name="dialog_message">%1$s requests this %2$s be enabled in your app settings.</string>
+    <string name="dialog_message_exit">You are about to exit the app.</string>
+
     <string name="dialog_positive_text">GOTO SETTINGS</string>
+    <string name="dialog_positive_exit">Yes</string>
+    <string name="dialog_positive_submit">Submit</string>
+
     <string name="dialog_negative_text">Cancel</string>
-    <string name="dialog_exit_title">Close the session?</string>
-    <string name="dialog_exit_message">You are about to exit the app.</string>
-    <string name="dialog_exit_positive">Yes</string>
-    <string name="dialog_exit_negative">Cancel</string>
 
     <string name="uri_scheme_low_api">package</string>
 
@@ -45,6 +50,7 @@
     <string name="text_glide">Glide - Image Loading Library by BumpTech</string>
     <string name="text_loadapp">LoadApp - Current repository by Udacity</string>
     <string name="text_retrofit">Retrofit - Type-safe HTTP client for Android and Java by Square, Inc</string>
+    <string name="text_custom_url">Custom Address - Select this to enter your own Download URL</string>
 
     <string name="url_glide">https://github.com/bumptech/glide/archive/refs/heads/master.zip</string>
     <string name="url_loadApp">https://github.com/udacity/nd940-c3-advanced-android-programming-project-starter/archive/master.zip</string>

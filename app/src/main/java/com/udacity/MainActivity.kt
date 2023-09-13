@@ -17,13 +17,14 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.Settings
+import android.text.InputType
+import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationManagerCompat
 import com.udacity.databinding.ActivityMainBinding
-import com.udacity.utils.URL_REGEX
-import com.udacity.utils.VALID_CONNECTION
+import com.udacity.utils.SUCCESS_RESPONSE_OK
 import com.udacity.utils.createChannel
 import com.udacity.utils.isNotificationChannelRequired
 import com.udacity.utils.sendNotification
@@ -32,8 +33,9 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.net.HttpURLConnection
+import java.net.MalformedURLException
 import java.net.URL
-import java.util.regex.Pattern
+import java.net.UnknownHostException
 import kotlin.properties.Delegates
 
 class MainActivity : AppCompatActivity() {
@@ -65,41 +67,66 @@ class MainActivity : AppCompatActivity() {
 
                 println("MAINSCOPE.LAUNCH")
 
-                // check if url is a valid web address
-                if (isUrlValid()) {
+                // execute this blocking coroutine scope in a separate background thread
+                withContext(Dispatchers.IO) {
 
                     println("DISPATCHERS.IO")
 
-                    // execute this blocking coroutine scope in a separate background thread
-                    withContext(Dispatchers.IO) {
+                    try {
+                        // check if url returns a response status code
+                        // THROWS - java.net.UnknownHostException
+                        //          java.net.MalformedURLException
+                        val statusCode = getHttpResponseStatusCode()
 
-                        // check if provided URL contains a file for download
-                        val code = getUrlConnectionCode()
+                        println("getHttpResponseStatusCode PASSED")
 
-                        // return to main thread and continue process
+                        // return to main thread and process code
                         runOnUiThread {
-                            if (code == VALID_CONNECTION) {
+                            if (statusCode == SUCCESS_RESPONSE_OK) {
+                                // execute file download
                                 downloadFile()
 
                             } else {
 
-                                println(code)
-
+                                // display HTTP response status code
                                 Toast.makeText(
                                     this@MainActivity,
-                                    getString(R.string.toast_no_file_url),
+                                    getString(R.string.toast_http_response, statusCode.toString()),
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
                         }
-                    }
 
-                } else {
-                    Toast.makeText(
-                        this@MainActivity,
-                        getString(R.string.toast_invalid_url),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                        // catch exceptions
+                    } catch (exception: Exception) {
+
+                        // return to main thread and process exception
+                        runOnUiThread {
+                            when (exception) {
+
+                                // java.net.MalformedURLException
+                                is MalformedURLException -> {
+                                    Toast.makeText(
+                                        this@MainActivity,
+                                        getString(R.string.toast_malformed_url_exception),
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                                // java.net.UnknownHostException
+                                is UnknownHostException -> {
+                                    Toast.makeText(
+                                        this@MainActivity,
+                                        getString(R.string.toast_unknown_host_exception),
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                                // print exception & message to console
+                                else -> {
+                                    println("$exception :: ${exception.message}")
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -110,21 +137,12 @@ class MainActivity : AppCompatActivity() {
 
 
     /**
-     *  checks if the provided url
-     *  is a valid web address against
-     *  a string regex
+     *  returns the HTTP response status code of
+     *  the provided URL if connection is valid.
+     *  THROWS - java.net.UnknownHostException
+     *           java.net.MalformedURLException
      */
-    private fun isUrlValid(): Boolean {
-        return Pattern.compile(URL_REGEX).matcher(downloadUrl).matches()
-    }
-
-
-    /**
-     *  checks if the url contains a
-     *  file to be downloaded by returning
-     *  a connection response code
-     */
-    private fun getUrlConnectionCode(): Int {
+    private fun getHttpResponseStatusCode(): Int {
         val url = URL(downloadUrl)
         val connection = url.openConnection() as HttpURLConnection
         return connection.responseCode
@@ -219,12 +237,12 @@ class MainActivity : AppCompatActivity() {
         val builder = AlertDialog.Builder(this)
 
         // title
-        builder.setTitle(getString(R.string.dialog_exit_title))
+        builder.setTitle(getString(R.string.dialog_title_exit))
         // message
-        builder.setMessage(getString(R.string.dialog_exit_message))
+        builder.setMessage(getString(R.string.dialog_message_exit))
 
         // exit choice
-        builder.setPositiveButton(getString(R.string.dialog_exit_positive)) { dialog, _ ->
+        builder.setPositiveButton(getString(R.string.dialog_positive_exit)) { dialog, _ ->
             // dismiss the dialog
             dialog.dismiss()
 
@@ -236,7 +254,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         // cancel choice
-        builder.setNegativeButton(getString(R.string.dialog_exit_negative)) { dialog, _ ->
+        builder.setNegativeButton(getString(R.string.dialog_negative_text)) { dialog, _ ->
             // close the dialog
             dialog.cancel()
         }
@@ -306,6 +324,9 @@ class MainActivity : AppCompatActivity() {
                                 getString(R.string.url_retrofit)
                             )
                         }
+                        radioCustomUrl.id -> {       // Custom Url radio button
+                            showCustomUrlDialog(radioCustomUrl.text.toString())
+                        }
                     }
                 }
 
@@ -324,6 +345,39 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+
+    /**
+     *  dialog that allows the user
+     *  to input their own URL
+     *  address to download a file
+     */
+    private fun showCustomUrlDialog(filename: String) {
+        // builder
+        val builder = AlertDialog.Builder(this)
+
+        // title
+        builder.setTitle(getString(R.string.dialog_title_custom_url))
+
+        // create an edit text that uses strings
+        val input = EditText(this)
+        input.inputType = InputType.TYPE_CLASS_TEXT
+
+        // set edit text as view
+        builder.setView(input)
+
+        // update url with default edit text field
+        updateDownloadInfo(filename, input.text.toString())
+
+        // close dialog and update url with edit text field
+        builder.setPositiveButton(getString(R.string.dialog_positive_submit)) { dialog, _ ->
+            dialog.dismiss()
+            updateDownloadInfo(filename, input.text.toString())
+        }
+
+        // display dialog
+        builder.show()
     }
 
 
