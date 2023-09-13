@@ -17,11 +17,13 @@
     <string name="button_download_complete">Download Complete</string>
     <string name="button_return_description">Return button</string>
 
-    <string name="toast_select_file">select a file to download</string>
-    <string name="toast_click_button">click button</string>
-    <string name="toast_file_saved">file saved to %1$s</string>
-    <string name="toast_download_failed">download failed…</string>
+    <string name="toast_select_file">Select A File To Download</string>
+    <string name="toast_click_button">Click Button</string>
+    <string name="toast_file_saved">File Saved To %1$s</string>
+    <string name="toast_download_failed">Download Failed…</string>
     <string name="toast_downloading">Downloading…</string>
+    <string name="toast_no_file_url">HTTP 404…Resource Was Not Found</string>
+    <string name="toast_invalid_url">Bad Request…Invalid Web Address</string>
 
     <string name="dialog_title_low_api">Storage Permission</string>
     <string name="dialog_title">%1$s Needed</string>

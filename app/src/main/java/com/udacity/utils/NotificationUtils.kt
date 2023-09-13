@@ -17,8 +17,10 @@ import com.udacity.R
  * notification id
  */
 const val NOTIFICATION_ID = 0
+const val VALID_CONNECTION = 200
 const val FILE_NAME_EXTRA = "fileNameExtra"
 const val FILE_STATUS_EXTRA = "fileStatusExtra"
+const val URL_REGEX = "((http|https)://)(www.)?[a-zA-Z0-9@:%._\\+~#?&//=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%._\\+~#?&//=]*)"
 
 
 /**

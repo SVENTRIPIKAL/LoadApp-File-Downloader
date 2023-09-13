@@ -22,9 +22,18 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationManagerCompat
 import com.udacity.databinding.ActivityMainBinding
+import com.udacity.utils.URL_REGEX
+import com.udacity.utils.VALID_CONNECTION
 import com.udacity.utils.createChannel
 import com.udacity.utils.isNotificationChannelRequired
 import com.udacity.utils.sendNotification
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.net.HttpURLConnection
+import java.net.URL
+import java.util.regex.Pattern
 import kotlin.properties.Delegates
 
 class MainActivity : AppCompatActivity() {
@@ -51,28 +60,102 @@ class MainActivity : AppCompatActivity() {
         // permission granted & download channel enabled
         if (isGranted && isDownloadChannelEnabled()) {
 
-            // inform download initiated
-            Toast.makeText(this, getString(R.string.toast_downloading), Toast.LENGTH_SHORT).show()
+            // launch a non-blocking coroutine scope
+            MainScope().launch {
 
-            // extract file extension & title
-            val space = getString(R.string.text_space)
-            val period = getString(R.string.text_period)
-            val ext = downloadUrl.substringAfterLast(period)
-            val title = fileNameExtra.substringBefore(space).plus("$period$ext")
+                println("MAINSCOPE.LAUNCH")
 
-            // download query   [set title, description, directory, visibility]
-            val request = DownloadManager.Request( Uri.parse(downloadUrl) )
-                .setTitle(title)
-                .setDescription(downloadUrl)
-                .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, title)
-                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
+                // check if url is a valid web address
+                if (isUrlValid()) {
 
-            // que download & update downloadId
-            downloadFileId = downloadManager.enqueue(request)
+                    println("DISPATCHERS.IO")
+
+                    // execute this blocking coroutine scope in a separate background thread
+                    withContext(Dispatchers.IO) {
+
+                        // check if provided URL contains a file for download
+                        val code = getUrlConnectionCode()
+
+                        // return to main thread and continue process
+                        runOnUiThread {
+                            if (code == VALID_CONNECTION) {
+                                downloadFile()
+
+                            } else {
+
+                                println(code)
+
+                                Toast.makeText(
+                                    this@MainActivity,
+                                    getString(R.string.toast_no_file_url),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                    }
+
+                } else {
+                    Toast.makeText(
+                        this@MainActivity,
+                        getString(R.string.toast_invalid_url),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
         }
 
         else // notify permissions required
             showSettingsDialog()
+    }
+
+
+    /**
+     *  checks if the provided url
+     *  is a valid web address against
+     *  a string regex
+     */
+    private fun isUrlValid(): Boolean {
+        return Pattern.compile(URL_REGEX).matcher(downloadUrl).matches()
+    }
+
+
+    /**
+     *  checks if the url contains a
+     *  file to be downloaded by returning
+     *  a connection response code
+     */
+    private fun getUrlConnectionCode(): Int {
+        val url = URL(downloadUrl)
+        val connection = url.openConnection() as HttpURLConnection
+        return connection.responseCode
+    }
+
+
+    /**
+     *  downloads a file from provided URL
+     *  via Download Manager by queuing
+     *  the request and updating the
+     *  download file id
+     */
+    private fun downloadFile() {
+        // inform download initiated
+        Toast.makeText(this, getString(R.string.toast_downloading), Toast.LENGTH_SHORT).show()
+
+        // extract file extension & title
+        val space = getString(R.string.text_space)
+        val period = getString(R.string.text_period)
+        val ext = downloadUrl.substringAfterLast(period)
+        val title = fileNameExtra.substringBefore(space).plus("$period$ext")
+
+        // download query   [set title, description, directory, visibility]
+        val request = DownloadManager.Request(Uri.parse(downloadUrl))
+            .setTitle(title)
+            .setDescription(downloadUrl)
+            .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, title)
+            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
+
+        // que download & update downloadId
+        downloadFileId = downloadManager.enqueue(request)
     }
 
 
@@ -237,7 +320,7 @@ class MainActivity : AppCompatActivity() {
                 customButton.setOnClickListener {
 
 //                    customButton.isClickable = false // disable clicks until animation finishes
-                    download() // run download function
+                    checkManifestPermissions()          // run check Manifest permissions
                 }
             }
         }
@@ -260,7 +343,7 @@ class MainActivity : AppCompatActivity() {
      *  permissions / else request Write permissions
      */
     @SuppressLint("InlinedApi")
-    private fun download() {
+    private fun checkManifestPermissions() {
         if (isNotificationChannelRequired()) {
             requestPermissionLauncher.launch(POST_NOTIFICATIONS)
         } else requestPermissionLauncher.launch(WRITE_EXTERNAL_STORAGE)
