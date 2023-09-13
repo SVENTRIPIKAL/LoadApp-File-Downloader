@@ -142,15 +142,20 @@ class MainActivity : AppCompatActivity() {
 
         // exit choice
         builder.setPositiveButton(getString(R.string.dialog_exit_positive)) { dialog, _ ->
-            dialog.dismiss()    // dismiss the dialog
+            // dismiss the dialog
+            dialog.dismiss()
 
-            // exit the app
+            // finish the activity
+            this.finish()
+
+            // exit the app -- back used since Activity is always root stack
             onBackPressedDispatcher.onBackPressed()
         }
 
         // cancel choice
         builder.setNegativeButton(getString(R.string.dialog_exit_negative)) { dialog, _ ->
-            dialog.cancel() // close the dialog
+            // close the dialog
+            dialog.cancel()
         }
 
         // show dialog
