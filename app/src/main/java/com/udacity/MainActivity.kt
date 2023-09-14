@@ -87,7 +87,6 @@ class MainActivity : AppCompatActivity() {
                                 downloadFile()
 
                             } else {
-
                                 // display HTTP response status code
                                 Toast.makeText(
                                     this@MainActivity,
@@ -103,7 +102,6 @@ class MainActivity : AppCompatActivity() {
                         // return to main thread and process exception
                         runOnUiThread {
                             when (exception) {
-
                                 // java.net.MalformedURLException
                                 is MalformedURLException -> {
                                     Toast.makeText(
