@@ -4,6 +4,8 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_detail">DetailActivity</string>
 
+    <string name="main_image_description">purple cloud with arrow in center pointing down</string>
+
     <string name="notification_title">Udacity: Android Kotlin Nanodegree</string>
     <string name="notification_description">The Project 3 repository is downloaded</string>
     <string name="notification_button">CHECK STATUS</string>
@@ -60,8 +62,7 @@
     <string name="file_status_success">Success</string>
     <string name="file_save_directory">%1$s/%2$s</string>
 
-    <string name="main_image_description">purple cloud with arrow in center pointing down</string>
-
     <string name="header_filename">File name:</string>
     <string name="header_status">Status:</string>
+    <string name="button_download_text">Download</string>
 </resources>

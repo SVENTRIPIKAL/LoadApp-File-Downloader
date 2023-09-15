@@ -16,7 +16,13 @@ import com.udacity.R
 /**
  * notification id
  */
-const val NOTIFICATION_ID = 0
+const val ZERO = 0
+const val ONE = 1
+const val TWO = 2
+const val THIRTY = 30
+const val PAINTER_TEXT_SIZE = 60F
+const val BORDER_STROKE_WIDTH = 12F
+const val NOTIFICATION_ID = ZERO
 const val SUCCESS_RESPONSE_OK = 200
 const val FILE_NAME_EXTRA = "fileNameExtra"
 const val FILE_STATUS_EXTRA = "fileStatusExtra"
