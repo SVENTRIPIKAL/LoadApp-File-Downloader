@@ -18,9 +18,9 @@ import com.udacity.R
  */
 const val ZERO = 0
 const val ONE = 1
-const val TWO = 2
-const val THIRTY = 30
-const val PAINTER_TEXT_SIZE = 60F
+const val HALF = 2
+const val TEXT_AXIS_BIAS = 50
+const val TEXT_SIZE = 80F
 const val BORDER_STROKE_WIDTH = 12F
 const val NOTIFICATION_ID = ZERO
 const val SUCCESS_RESPONSE_OK = 200

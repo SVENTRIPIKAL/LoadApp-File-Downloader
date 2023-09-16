@@ -9,10 +9,10 @@ import android.graphics.Typeface
 import android.util.AttributeSet
 import android.view.View
 import com.udacity.utils.BORDER_STROKE_WIDTH
+import com.udacity.utils.HALF
 import com.udacity.utils.ONE
-import com.udacity.utils.PAINTER_TEXT_SIZE
-import com.udacity.utils.THIRTY
-import com.udacity.utils.TWO
+import com.udacity.utils.TEXT_AXIS_BIAS
+import com.udacity.utils.TEXT_SIZE
 import com.udacity.utils.ZERO
 import kotlin.properties.Delegates
 
@@ -20,24 +20,26 @@ class LoadingButton @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
-    // button size attributes
-    private var widthSize = ZERO
-    private var heightSize = ZERO
-
-    // color attributes
-    private var buttonTextColor: Int
-    private var buttonBackgroundColor: Int
-
     // canvas painter
     private var painter = Paint(Paint.ANTI_ALIAS_FLAG)
 
-    // button text
-    private lateinit var buttonText: String
+    // button dimensions
+    private var widthSize = ZERO
+    private var heightSize = ZERO
+
+    // button custom attributes
+    private val buttonTextColor: Int
+    private val buttonBackgroundColor: Int
+    private val buttonBorderColor: Int
+    private val buttonCircleColor: Int
 
     // button state
-    private var buttonState: ButtonState by Delegates.observable<ButtonState>(ButtonState.Completed) { p, old, new ->
+    private var buttonState: ButtonState by Delegates.observable(ButtonState.Completed) { p, old, new ->
 
     }
+
+    // button text
+    private lateinit var buttonText: String
 
 
     // initialize
@@ -52,20 +54,34 @@ class LoadingButton @JvmOverloads constructor(
             ZERO, ZERO
         ).apply {
             try {
-                // assign button color default value
-                buttonBackgroundColor = getInt(
-                    R.styleable.LoadingButton_buttonBackgroundColor,
-                    context.getColor(R.color.colorPrimary)
-                )
+                context.apply {
+                    // assign button color - default value
+                    buttonBackgroundColor = getInt(
+                        R.styleable.LoadingButton_buttonBackgroundColor,
+                        getColor(R.color.colorPrimary)
+                    )
 
-                // assign button text default value
-                buttonTextColor = getInt(
-                    R.styleable.LoadingButton_buttonTextColor,
-                    context.getColor(R.color.white)
-                )
+                    // assign button text color - default value
+                    buttonTextColor = getInt(
+                        R.styleable.LoadingButton_buttonTextColor,
+                        getColor(R.color.white)
+                    )
+
+                    // assign button border color - default value
+                    buttonBorderColor = getInt(
+                        R.styleable.LoadingButton_buttonBorderColor,
+                        getColor(R.color.colorPrimaryDark)
+                    )
+
+                    // assign button circle color - default value
+                    buttonCircleColor = getInt(
+                        R.styleable.LoadingButton_buttonCirlceColor,
+                        getColor(R.color.colorAccent)
+                    )
+                }
 
             } finally {
-                // recycle typedArray after use
+                // recycle this typedArray shared resource - required
                 recycle()
             }
         }
@@ -124,7 +140,10 @@ class LoadingButton @JvmOverloads constructor(
         // paint button on canvas
         paintButton(canvas)
 
-        // paint text on canvas
+        // paint button border on canvas
+        paintBorder(canvas)
+
+        // paint button text on canvas
         paintText(canvas)
     }
 
@@ -140,7 +159,7 @@ class LoadingButton @JvmOverloads constructor(
         painterStrokeWidth: Float = ZERO.toFloat(),
         painterStyle: Paint.Style = Paint.Style.FILL,
         painterTextAlign: Align = Align.CENTER,
-        painterTextSize: Float = PAINTER_TEXT_SIZE,
+        painterTextSize: Float = TEXT_SIZE,
         painterTypeface: Typeface = Typeface.DEFAULT_BOLD
     ) {
         painter.apply {
@@ -160,7 +179,7 @@ class LoadingButton @JvmOverloads constructor(
     private fun paintButton(canvas: Canvas) {
         println("PAINT-BUTTON")
 
-        // update button background painter non-default attributes
+        // update painter non-default attributes
         updatePainter(buttonBackgroundColor)
 
         // draw button
@@ -171,9 +190,18 @@ class LoadingButton @JvmOverloads constructor(
             height.toFloat(),   // y-axis end
             painter             // painter
         )
+    }
 
-        // update button border painter non-default attributes
+
+    /**
+     * paints button border on canvas
+     */
+    private fun paintBorder(canvas: Canvas) {
+        println("PAINT-BORDER")
+
+        // update painter non-default attributes
         updatePainter(
+            painterColor = context.getColor(R.color.colorPrimaryDark),
             painterStrokeWidth = BORDER_STROKE_WIDTH,
             painterStyle = Paint.Style.STROKE
         )
@@ -190,26 +218,26 @@ class LoadingButton @JvmOverloads constructor(
 
 
     /**
-     * paints text on canvas
+     * paints button text on canvas
      */
     private fun paintText(canvas: Canvas) {
         println("PAINT-TEXT")
 
-        // assign button text
+        // assign text
         buttonText = when (buttonState) {
             ButtonState.Completed -> resources.getString(R.string.button_download_text)
             else -> resources.getString(R.string.toast_downloading)
         }
 
-        // update button text painter non-default attributes
+        // update painter non-default attributes
         updatePainter(buttonTextColor)
 
-        // draw button text
+        // draw text
         canvas.drawText(
-            buttonText,                             // text
-            ((width) / TWO).toFloat(),              // x-axis alignment
-            ((height + THIRTY) / TWO).toFloat(),    // y-axis alignment
-            painter                                 // painter
+            buttonText,                                     // text
+            ((width) / HALF).toFloat(),                     // x-axis alignment
+            ((height + TEXT_AXIS_BIAS) / HALF).toFloat(),   // y-axis alignment
+            painter                                         // painter
         )
     }
 }
