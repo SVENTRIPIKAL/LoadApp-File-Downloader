@@ -24,7 +24,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationManagerCompat
 import com.udacity.databinding.ActivityMainBinding
+import com.udacity.utils.ONE
 import com.udacity.utils.SUCCESS_RESPONSE_OK
+import com.udacity.utils.ZERO
 import com.udacity.utils.createChannel
 import com.udacity.utils.isNotificationChannelRequired
 import com.udacity.utils.sendNotification
@@ -41,7 +43,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    private var downloadFileId: Long = 0
+    private var downloadFileId: Long = ZERO.toLong()
     private lateinit var downloadUrl: String
     private lateinit var downloadManager: DownloadManager
 
@@ -61,6 +63,9 @@ class MainActivity : AppCompatActivity() {
         // permission granted & download channel enabled
         if (isGranted && isDownloadChannelEnabled()) {
 
+            // enables/disables views
+            areViewsEnabled(false)
+
             // start button animation - non-blocking
             beginButtonAnimation(true)
 
@@ -74,21 +79,34 @@ class MainActivity : AppCompatActivity() {
 
 
     /**
+     * disable/enables views according
+     * to the provided boolean.
+     */
+    private fun areViewsEnabled(boolean: Boolean) {
+        binding.includeMain.apply {
+            radioGlide.isEnabled = boolean
+            radioRetrofit.isEnabled = boolean
+            radioLoadApp.isEnabled = boolean
+            radioCustomUrl.isEnabled = boolean
+            customButton.isEnabled = boolean
+        }
+    }
+
+
+    /**
      * updates button animation depending on the provided
-     * boolean & updates button click functionality while
-     * also not blocking the running thread it came from.
+     * boolean & does not block the running thread it comes
+     * from.
      */
     private fun beginButtonAnimation(boolean: Boolean) = MainScope().launch {
         binding.includeMain.customButton.apply {
             when (boolean) {
                 true -> {
                     updateButtonUI(ButtonState.UnClicked)   // set ui to default
-                    isClickable = false                     // disable button clicks
                     startAnimation()                        // begin button animation
                 }
                 else -> {
                     updateButtonUI(ButtonState.Completed)   // end button animation
-                    isClickable = true                      // enable button clicks
                 }
             }
         }
@@ -98,8 +116,9 @@ class MainActivity : AppCompatActivity() {
     /**
      * runs the following code block in a background
      * thread & does not block the running thread it
-     * came from. returns to the UI thread once completed
-     * in order to process returned results & exceptions.
+     * comes from. returns to the UI thread only to
+     * process any failed results & continues in IO
+     * until request fully queues for download.
      */
     private fun backgroundIORequest() = MainScope().launch {
 
@@ -116,15 +135,16 @@ class MainActivity : AppCompatActivity() {
 
                 println("getHttpResponseStatusCode PASSED")
 
-                // return to main thread & process code
-                runOnUiThread {
-                    if (statusCode == SUCCESS_RESPONSE_OK) {
-                        // execute file download
-                        downloadFile()
+                if (statusCode == SUCCESS_RESPONSE_OK) {
+                    // execute file download queue
+                    downloadFile()
 
-                    } else {
-                        // end animation - non-blocking
-                        beginButtonAnimation(false)
+                } else {
+                    // return to main thread
+                    runOnUiThread {
+
+                        // end animation & re-enable radio buttons
+                        endAnimationAllowSelections()
 
                         // display HTTP response status code
                         Toast.makeText(
@@ -138,10 +158,11 @@ class MainActivity : AppCompatActivity() {
                 // catch exceptions
             } catch (exception: Exception) {
 
-                // return to main thread & process exception
+                // return to main thread & process exceptions
                 runOnUiThread {
-                    // end animation - non-blocking
-                    beginButtonAnimation(false)
+
+                    // end animation & re-enable radio buttons
+                    endAnimationAllowSelections()
 
                     when (exception) {
                         // java.net.MalformedURLException
@@ -168,6 +189,18 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+
+    /**
+     * end button animation & re-enable radio buttons
+     */
+    private fun endAnimationAllowSelections() {
+        // end animation - non-blocking
+        beginButtonAnimation(false)
+
+        // re-enable views for selection
+        areViewsEnabled(true)
     }
 
 
@@ -255,9 +288,7 @@ class MainActivity : AppCompatActivity() {
      *  via a dialog confirmation sequence
      */
     @Deprecated("Deprecated in Java")
-    override fun onBackPressed() {
-        showExitDialog()
-    }
+    override fun onBackPressed() = showExitDialog()
 
 
     /**
@@ -381,14 +412,10 @@ class MainActivity : AppCompatActivity() {
 
 
     /**
-     * enable the download button to be clicked
-     * and update the button animation UI
+     * resets button UI back to unclicked state
      */
     private fun refreshCustomButton() {
-        binding.includeMain.customButton.apply {
-            isClickable = true
-            updateButtonUI(ButtonState.UnClicked)
-        }
+        binding.includeMain.customButton.updateButtonUI(ButtonState.UnClicked)
     }
 
 
@@ -539,7 +566,7 @@ class MainActivity : AppCompatActivity() {
 
             val cursor: Cursor = downloadManager.query(DownloadManager.Query().setFilterById(downloadFileId))
 
-            val downloadId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
+            val downloadId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -ONE.toLong())
 
 
             println("$downloadFileId     $downloadId")
@@ -582,14 +609,16 @@ class MainActivity : AppCompatActivity() {
 
 
     /**
-     *  updates file download status & creates toast according to success
+     *  updates file download status,
+     *  creates toast according to success,
+     *  and runs endAnimationAllowSelections
      */
     private fun updateDownloadStatus(context: Context, status: Boolean, toastText: String){
         fileStatusExtra = status
         Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show()
 
-        // end animation - non-blocking
-        beginButtonAnimation(false)
+        // end animation & re-enable radio buttons
+        endAnimationAllowSelections()
     }
 }
 
