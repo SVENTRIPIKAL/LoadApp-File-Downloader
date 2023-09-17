@@ -74,7 +74,7 @@ class LoadingButton @JvmOverloads constructor(
                     // assign button text color - default value
                     buttonTextColor = getInt(
                         R.styleable.LoadingButton_buttonTextColor,
-                        getColor(R.color.white)
+                        Color.WHITE
                     )
 
                     // assign button border color - default value
@@ -83,7 +83,7 @@ class LoadingButton @JvmOverloads constructor(
                         getColor(R.color.colorPrimaryDark)
                     )
 
-                    // assign button circle color - default value
+                    // assign button progress color - default value
                     buttonProgressColor = getInt(
                         R.styleable.LoadingButton_buttonProgressColor,
                         getColor(R.color.colorSecondary)
@@ -118,7 +118,7 @@ class LoadingButton @JvmOverloads constructor(
     /**
      * updates button UI to
      * the assigned state
-     * & resets value animator.
+     * & call reset value animator.
      */
     fun updateButtonUI(state: ButtonState) {
         buttonState = state
@@ -127,7 +127,7 @@ class LoadingButton @JvmOverloads constructor(
 
 
     /**
-     * stop animation and update
+     * stops animation and updates
      * progress to show given state.
      * calls invalidateView after.
      */
@@ -302,7 +302,7 @@ class LoadingButton @JvmOverloads constructor(
             }
             else -> {
                 buttonText = resources.getString(R.string.button_download_text)
-                paintDownload(canvas)
+                paintDefault(canvas)
             }
         }
     }
@@ -311,7 +311,7 @@ class LoadingButton @JvmOverloads constructor(
     /**
      * paints DOWNLOAD text
      */
-    private fun paintDownload(canvas: Canvas) {
+    private fun paintDefault(canvas: Canvas) {
         // update painter color
         updatePainter(buttonTextColor)
 
@@ -349,7 +349,7 @@ class LoadingButton @JvmOverloads constructor(
         // update painter color
         updatePainter(buttonTextColor)
 
-        // draw downloading text
+        // draw download complete text
         canvas.drawText(
             context.getString(R.string.button_download_complete),   // text
             (width / HALF).toFloat(),                               // centerX

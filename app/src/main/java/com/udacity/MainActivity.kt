@@ -37,7 +37,6 @@ import java.net.MalformedURLException
 import java.net.URL
 import java.net.UnknownHostException
 import kotlin.properties.Delegates
-
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -62,88 +61,11 @@ class MainActivity : AppCompatActivity() {
         // permission granted & download channel enabled
         if (isGranted && isDownloadChannelEnabled()) {
 
-            // launch a non-blocking coroutine scope
-            MainScope().launch {
+            // start button animation - non-blocking
+            beginButtonAnimation(true)
 
-                println("MAINSCOPE.LAUNCH")
-
-                // start button animation
-                beginButtonAnimation(true)
-
-                // execute this blocking coroutine scope in a separate background thread
-                withContext(Dispatchers.IO) {
-
-                    println("DISPATCHERS.IO")
-
-                    try {
-                        // check if url returns a response status code
-                        // THROWS - java.net.UnknownHostException
-                        //          java.net.MalformedURLException
-                        val statusCode = getHttpResponseStatusCode()
-
-                        println("getHttpResponseStatusCode PASSED")
-
-                        // return to main thread and process code
-                        runOnUiThread {
-                            if (statusCode == SUCCESS_RESPONSE_OK) {
-                                // execute file download
-                                downloadFile()
-
-                            } else {
-
-                                // launch a non-blocking coroutine scope
-                                MainScope().launch {
-                                    // end animation
-                                    beginButtonAnimation(false)
-                                }
-
-                                // display HTTP response status code
-                                Toast.makeText(
-                                    this@MainActivity,
-                                    getString(R.string.toast_http_response, statusCode.toString()),
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                        }
-
-                        // catch exceptions
-                    } catch (exception: Exception) {
-
-                        // return to main thread and process exception
-                        runOnUiThread {
-
-                            // launch a non-blocking coroutine scope
-                            MainScope().launch {
-                                // end animation
-                                beginButtonAnimation(false)
-                            }
-
-                            when (exception) {
-                                // java.net.MalformedURLException
-                                is MalformedURLException -> {
-                                    Toast.makeText(
-                                        this@MainActivity,
-                                        getString(R.string.toast_malformed_url_exception),
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-                                // java.net.UnknownHostException
-                                is UnknownHostException -> {
-                                    Toast.makeText(
-                                        this@MainActivity,
-                                        getString(R.string.toast_unknown_host_exception),
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-                                // print exception & message to console
-                                else -> {
-                                    println("$exception :: ${exception.message}")
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+            // run work in background - non-blocking
+            backgroundIORequest()
         }
 
         else // notify permissions required
@@ -152,16 +74,11 @@ class MainActivity : AppCompatActivity() {
 
 
     /**
-     *  continues to run the UI animation on
-     *  the Main thread. This block is required
-     *  to live inside the MainScope().Launch
-     *  block in order for the animation to
-     *  await the completion of the requestPermissionLauncher
-     *  sequence just before this. Otherwise, the animation
-     *  & download sequence will execute automatically
-     *  & user permissions are never requested by the OS.
+     * updates button animation depending on the provided
+     * boolean & updates button click functionality while
+     * also not blocking the running thread it came from.
      */
-    private fun beginButtonAnimation(boolean: Boolean) {
+    private fun beginButtonAnimation(boolean: Boolean) = MainScope().launch {
         binding.includeMain.customButton.apply {
             when (boolean) {
                 true -> {
@@ -172,6 +89,82 @@ class MainActivity : AppCompatActivity() {
                 else -> {
                     updateButtonUI(ButtonState.Completed)   // end button animation
                     isClickable = true                      // enable button clicks
+                }
+            }
+        }
+    }
+
+
+    /**
+     * runs the following code block in a background
+     * thread & does not block the running thread it
+     * came from. returns to the UI thread once completed
+     * in order to process returned results & exceptions.
+     */
+    private fun backgroundIORequest() = MainScope().launch {
+
+        // execute this blocking coroutine scope in a separate background thread
+        withContext(Dispatchers.IO) {
+
+            println("DISPATCHERS.IO")
+
+            try {
+                // check if url returns a response status code
+                // THROWS - java.net.UnknownHostException
+                //          java.net.MalformedURLException
+                val statusCode = getHttpResponseStatusCode()
+
+                println("getHttpResponseStatusCode PASSED")
+
+                // return to main thread & process code
+                runOnUiThread {
+                    if (statusCode == SUCCESS_RESPONSE_OK) {
+                        // execute file download
+                        downloadFile()
+
+                    } else {
+                        // end animation - non-blocking
+                        beginButtonAnimation(false)
+
+                        // display HTTP response status code
+                        Toast.makeText(
+                            this@MainActivity,
+                            getString(R.string.toast_http_response, statusCode.toString()),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+
+                // catch exceptions
+            } catch (exception: Exception) {
+
+                // return to main thread & process exception
+                runOnUiThread {
+                    // end animation - non-blocking
+                    beginButtonAnimation(false)
+
+                    when (exception) {
+                        // java.net.MalformedURLException
+                        is MalformedURLException -> {
+                            Toast.makeText(
+                                this@MainActivity,
+                                getString(R.string.toast_malformed_url_exception),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        // java.net.UnknownHostException
+                        is UnknownHostException -> {
+                            Toast.makeText(
+                                this@MainActivity,
+                                getString(R.string.toast_unknown_host_exception),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        // print exception & message to console
+                        else -> {
+                            println("$exception :: ${exception.message}")
+                        }
+                    }
                 }
             }
         }
@@ -231,8 +224,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // layout binding
         binding = ActivityMainBinding.inflate(layoutInflater)
 
+        // set view & action bar
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
 
@@ -339,7 +334,7 @@ class MainActivity : AppCompatActivity() {
             // radio group listener
             radioGroup.setOnCheckedChangeListener { _, _ ->
 
-                // revert button to default state
+                // reset button UI to default state
                 refreshCustomButton()
 
                 radioGroup.apply {
@@ -559,18 +554,14 @@ class MainActivity : AppCompatActivity() {
                 downloadManager.apply {
 
                     when(downloadSTATUS) {
-
                         STATUS_SUCCESSFUL -> {  // update status extra & display save directory
-
                             updateDownloadStatus(
                                 context,
                                 true,
                                 getString(R.string.toast_file_saved, fileSaveDirectory)
                             )
                         }
-
                         STATUS_FAILED -> {  // update status extra & display failure toast
-
                             updateDownloadStatus(
                                 context,
                                 false,
@@ -591,12 +582,14 @@ class MainActivity : AppCompatActivity() {
 
 
     /**
-     *  updates file download status and creates toast according to success
+     *  updates file download status & creates toast according to success
      */
     private fun updateDownloadStatus(context: Context, status: Boolean, toastText: String){
         fileStatusExtra = status
         Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show()
 
+        // end animation - non-blocking
         beginButtonAnimation(false)
     }
 }
+

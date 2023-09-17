@@ -1,6 +1,7 @@
 package com.udacity
 
 import android.app.NotificationManager
+import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.udacity.databinding.ActivityDetailBinding
@@ -39,11 +40,11 @@ class DetailActivity : AppCompatActivity() {
             when(intent.extras?.getBoolean(FILE_STATUS_EXTRA)){
                 true -> {
                     text = getString(R.string.file_status_success)
-                    setTextColor( getColor(R.color.green) )
+                    setTextColor( Color.GREEN )
                 }
                 else -> {
                     text = getString(R.string.file_status_fail)
-                    setTextColor( getColor(R.color.red) )
+                    setTextColor( Color.RED )
                 }
             }
         }

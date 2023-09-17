@@ -32,7 +32,7 @@
         android:layout_margin="16dp"
         android:layout_gravity="bottom|center"
         android:backgroundTint="@color/colorAccent"
-        android:textColor="@color/black"
+        android:textColor="@android:color/black"
         android:contentDescription="@string/button_return_description"
         android:text="@string/text_return"
         android:textAlignment="center"/>

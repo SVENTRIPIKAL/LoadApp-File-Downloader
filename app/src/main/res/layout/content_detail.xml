@@ -56,6 +56,6 @@
         app:layout_constraintStart_toStartOf="@+id/fileNameText"
         app:layout_constraintTop_toTopOf="@+id/statusHeader"
         tools:text="Success"
-        tools:textColor="@color/green" />
+        tools:textColor="@android:color/holo_green_dark" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

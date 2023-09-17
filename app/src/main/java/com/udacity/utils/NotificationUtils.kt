@@ -14,7 +14,7 @@ import com.udacity.R
 
 
 /**
- * notification id
+ * constant values
  */
 const val ZERO = 0
 const val ONE = 1
@@ -22,7 +22,7 @@ const val HALF = 2
 const val TOTAL_PROGRESS = 100
 const val Y_AXIS_BIAS = 50
 const val TEXT_SIZE = 80
-const val BORDER_STROKE_WIDTH = 12
+const val BORDER_STROKE_WIDTH = 13
 const val NOTIFICATION_ID = ZERO
 const val SUCCESS_RESPONSE_OK = 200
 const val FILE_NAME_EXTRA = "fileNameExtra"
