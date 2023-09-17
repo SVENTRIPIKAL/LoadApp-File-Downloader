@@ -5,6 +5,6 @@
         <attr name="buttonTextColor" format="integer" />
         <attr name="buttonBackgroundColor" format="integer" />
         <attr name="buttonBorderColor" format="integer" />
-        <attr name="buttonCirlceColor" format="integer" />
+        <attr name="buttonProgressColor" format="integer" />
     </declare-styleable>
 </resources>

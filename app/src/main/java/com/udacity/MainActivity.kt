@@ -67,6 +67,9 @@ class MainActivity : AppCompatActivity() {
 
                 println("MAINSCOPE.LAUNCH")
 
+                // start button animation
+                beginButtonAnimation(true)
+
                 // execute this blocking coroutine scope in a separate background thread
                 withContext(Dispatchers.IO) {
 
@@ -87,6 +90,13 @@ class MainActivity : AppCompatActivity() {
                                 downloadFile()
 
                             } else {
+
+                                // launch a non-blocking coroutine scope
+                                MainScope().launch {
+                                    // end animation
+                                    beginButtonAnimation(false)
+                                }
+
                                 // display HTTP response status code
                                 Toast.makeText(
                                     this@MainActivity,
@@ -101,6 +111,13 @@ class MainActivity : AppCompatActivity() {
 
                         // return to main thread and process exception
                         runOnUiThread {
+
+                            // launch a non-blocking coroutine scope
+                            MainScope().launch {
+                                // end animation
+                                beginButtonAnimation(false)
+                            }
+
                             when (exception) {
                                 // java.net.MalformedURLException
                                 is MalformedURLException -> {
@@ -135,6 +152,33 @@ class MainActivity : AppCompatActivity() {
 
 
     /**
+     *  continues to run the UI animation on
+     *  the Main thread. This block is required
+     *  to live inside the MainScope().Launch
+     *  block in order for the animation to
+     *  await the completion of the requestPermissionLauncher
+     *  sequence just before this. Otherwise, the animation
+     *  & download sequence will execute automatically
+     *  & user permissions are never requested by the OS.
+     */
+    private fun beginButtonAnimation(boolean: Boolean) {
+        binding.includeMain.customButton.apply {
+            when (boolean) {
+                true -> {
+                    updateButtonUI(ButtonState.UnClicked)   // set ui to default
+                    isClickable = false                     // disable button clicks
+                    startAnimation()                        // begin button animation
+                }
+                else -> {
+                    updateButtonUI(ButtonState.Completed)   // end button animation
+                    isClickable = true                      // enable button clicks
+                }
+            }
+        }
+    }
+
+
+    /**
      *  returns the HTTP response status code of
      *  the provided URL if connection is valid.
      *  THROWS - java.net.UnknownHostException
@@ -154,9 +198,6 @@ class MainActivity : AppCompatActivity() {
      *  download file id
      */
     private fun downloadFile() {
-        // inform download initiated
-        Toast.makeText(this, getString(R.string.toast_downloading), Toast.LENGTH_SHORT).show()
-
         // extract file extension & title
         val space = getString(R.string.text_space)
         val period = getString(R.string.text_period)
@@ -298,9 +339,8 @@ class MainActivity : AppCompatActivity() {
             // radio group listener
             radioGroup.setOnCheckedChangeListener { _, _ ->
 
-                // allow downloads upon selection / reset button UI
-                customButton.isClickable = true
-//                customButton.resetButtonUI() // reset button animation
+                // revert button to default state
+                refreshCustomButton()
 
                 radioGroup.apply {
                     when(checkedRadioButtonId) {
@@ -337,11 +377,22 @@ class MainActivity : AppCompatActivity() {
 
                 // set listener for button
                 customButton.setOnClickListener {
-
-//                    customButton.isClickable = false // disable clicks until animation finishes
-                    checkManifestPermissions()          // run check Manifest permissions
+                    // run check Manifest permissions
+                    checkManifestPermissions()
                 }
             }
+        }
+    }
+
+
+    /**
+     * enable the download button to be clicked
+     * and update the button animation UI
+     */
+    private fun refreshCustomButton() {
+        binding.includeMain.customButton.apply {
+            isClickable = true
+            updateButtonUI(ButtonState.UnClicked)
         }
     }
 
@@ -545,5 +596,7 @@ class MainActivity : AppCompatActivity() {
     private fun updateDownloadStatus(context: Context, status: Boolean, toastText: String){
         fileStatusExtra = status
         Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show()
+
+        beginButtonAnimation(false)
     }
 }

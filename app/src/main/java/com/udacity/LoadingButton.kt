@@ -1,5 +1,7 @@
 package com.udacity
 
+import android.animation.AnimatorInflater
+import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
@@ -11,31 +13,39 @@ import android.view.View
 import com.udacity.utils.BORDER_STROKE_WIDTH
 import com.udacity.utils.HALF
 import com.udacity.utils.ONE
-import com.udacity.utils.TEXT_AXIS_BIAS
 import com.udacity.utils.TEXT_SIZE
+import com.udacity.utils.TOTAL_PROGRESS
+import com.udacity.utils.Y_AXIS_BIAS
 import com.udacity.utils.ZERO
 import kotlin.properties.Delegates
 
 class LoadingButton @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
+    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = ZERO
 ) : View(context, attrs, defStyleAttr) {
 
-    // canvas painter
-    private var painter = Paint(Paint.ANTI_ALIAS_FLAG)
-
-    // button dimensions
-    private var widthSize = ZERO
-    private var heightSize = ZERO
+    // canvas dimensions & painter
+    private var canvasWidth = ZERO
+    private var canvasHeight = ZERO
+    private var canvasPainter = Paint(Paint.ANTI_ALIAS_FLAG)
 
     // button custom attributes
     private val buttonTextColor: Int
-    private val buttonBackgroundColor: Int
     private val buttonBorderColor: Int
-    private val buttonCircleColor: Int
+    private val buttonProgressColor: Int
+    private val buttonBackgroundColor: Int
 
     // button state
-    private var buttonState: ButtonState by Delegates.observable(ButtonState.Completed) { p, old, new ->
+    private var buttonState: ButtonState by Delegates.observable(ButtonState.UnClicked) { p, old, new -> }
 
+    // animation values
+    @Volatile
+    private var animationProgress: Double = ZERO.toDouble()
+    private val valueAnimator: ValueAnimator = AnimatorInflater.loadAnimator(
+        context, R.animator.button_loading_animation
+    ) as ValueAnimator
+    private val valueAnimatorListener = ValueAnimator.AnimatorUpdateListener {
+        animationProgress = (it.animatedValue as Float).toDouble()
+        invalidateView()
     }
 
     // button text
@@ -74,10 +84,13 @@ class LoadingButton @JvmOverloads constructor(
                     )
 
                     // assign button circle color - default value
-                    buttonCircleColor = getInt(
-                        R.styleable.LoadingButton_buttonCirlceColor,
-                        getColor(R.color.colorAccent)
+                    buttonProgressColor = getInt(
+                        R.styleable.LoadingButton_buttonProgressColor,
+                        getColor(R.color.colorSecondary)
                     )
+
+                    // value animator listener
+                    valueAnimator.addUpdateListener(valueAnimatorListener)
                 }
 
             } finally {
@@ -89,8 +102,48 @@ class LoadingButton @JvmOverloads constructor(
 
 
     /**
-     * update any custom view property
-     * changes and redraw UI to screen
+     * update button state and
+     * begin animation. Suppressed
+     * the call to super since it
+     * would deactivate the expected
+     * animation after its first completion.
+     */
+    fun startAnimation(): Boolean {
+        buttonState = ButtonState.Loading
+        valueAnimator.start()
+        return true
+    }
+
+
+    /**
+     * updates button UI to
+     * the assigned state
+     * & resets value animator.
+     */
+    fun updateButtonUI(state: ButtonState) {
+        buttonState = state
+        resetValueAnimator()
+    }
+
+
+    /**
+     * stop animation and update
+     * progress to show given state.
+     * calls invalidateView after.
+     */
+    private fun resetValueAnimator() {
+        valueAnimator.cancel()
+        animationProgress = when(buttonState) {
+            ButtonState.Completed -> TOTAL_PROGRESS.toDouble()
+            else -> ZERO.toDouble()
+        }
+        invalidateView()
+    }
+
+
+    /**
+     * updates any custom view property
+     * changes and redraws UI to screen
      */
     private fun invalidateView() {
         invalidate()
@@ -120,8 +173,8 @@ class LoadingButton @JvmOverloads constructor(
         )
 
         // update width & height
-        widthSize = w
-        heightSize = h
+        canvasWidth = w
+        canvasHeight = h
 
         // store measured width & height for onDraw
         setMeasuredDimension(w, h)
@@ -150,19 +203,21 @@ class LoadingButton @JvmOverloads constructor(
 
     /**
      * updates any default painter values.
-     * text size & stroke width attributes
-     * need their values to be explicitly
-     * assigned.
+     * attributes updated ordinally are
+     * inferred by their type automatically,
+     * and only need to point to attributes
+     * explicitly when values are changed
+     * out of order.
      */
     private fun updatePainter(
         painterColor: Int = Color.BLACK,
         painterStrokeWidth: Float = ZERO.toFloat(),
         painterStyle: Paint.Style = Paint.Style.FILL,
         painterTextAlign: Align = Align.CENTER,
-        painterTextSize: Float = TEXT_SIZE,
+        painterTextSize: Float = TEXT_SIZE.toFloat(),
         painterTypeface: Typeface = Typeface.DEFAULT_BOLD
     ) {
-        painter.apply {
+        canvasPainter.apply {
             color = painterColor
             strokeWidth = painterStrokeWidth
             style = painterStyle
@@ -179,7 +234,7 @@ class LoadingButton @JvmOverloads constructor(
     private fun paintButton(canvas: Canvas) {
         println("PAINT-BUTTON")
 
-        // update painter non-default attributes
+        // update painter color
         updatePainter(buttonBackgroundColor)
 
         // draw button
@@ -188,7 +243,19 @@ class LoadingButton @JvmOverloads constructor(
             ZERO.toFloat(),     // y-axis start
             width.toFloat(),    // x-axis end
             height.toFloat(),   // y-axis end
-            painter             // painter
+            canvasPainter       // painter
+        )
+
+        // update painter color
+        updatePainter(buttonProgressColor)
+
+        // draw download progress color
+        canvas.drawRect(
+            ZERO.toFloat(),                                             // x-axis start
+            ZERO.toFloat(),                                             // y-axis start
+            (width * (animationProgress / TOTAL_PROGRESS)).toFloat(),   // x-axis end
+            height.toFloat(),                                           // y-axis end
+            canvasPainter                                               // painter
         )
     }
 
@@ -201,9 +268,9 @@ class LoadingButton @JvmOverloads constructor(
 
         // update painter non-default attributes
         updatePainter(
-            painterColor = context.getColor(R.color.colorPrimaryDark),
-            painterStrokeWidth = BORDER_STROKE_WIDTH,
-            painterStyle = Paint.Style.STROKE
+            buttonBorderColor,
+            BORDER_STROKE_WIDTH.toFloat(),
+            Paint.Style.STROKE
         )
 
         // draw button border
@@ -212,7 +279,7 @@ class LoadingButton @JvmOverloads constructor(
             ZERO.toFloat(),     // y-axis start
             width.toFloat(),    // x-axis end
             height.toFloat(),   // y-axis end
-            painter             // painter
+            canvasPainter       // painter
         )
     }
 
@@ -223,21 +290,71 @@ class LoadingButton @JvmOverloads constructor(
     private fun paintText(canvas: Canvas) {
         println("PAINT-TEXT")
 
-        // assign text
-        buttonText = when (buttonState) {
-            ButtonState.Completed -> resources.getString(R.string.button_download_text)
-            else -> resources.getString(R.string.toast_downloading)
+        // assign & paint text
+        when (buttonState) {
+            ButtonState.Loading -> {
+                buttonText = resources.getString(R.string.toast_downloading)
+                paintDownloading(canvas)
+            }
+            ButtonState.Completed -> {
+                buttonText = resources.getString(R.string.button_download_complete)
+                paintCompleted(canvas)
+            }
+            else -> {
+                buttonText = resources.getString(R.string.button_download_text)
+                paintDownload(canvas)
+            }
         }
+    }
 
-        // update painter non-default attributes
+
+    /**
+     * paints DOWNLOAD text
+     */
+    private fun paintDownload(canvas: Canvas) {
+        // update painter color
         updatePainter(buttonTextColor)
 
-        // draw text
+        // draw default text
         canvas.drawText(
-            buttonText,                                     // text
-            ((width) / HALF).toFloat(),                     // x-axis alignment
-            ((height + TEXT_AXIS_BIAS) / HALF).toFloat(),   // y-axis alignment
-            painter                                         // painter
+            context.getString(R.string.button_download_text),   // text
+            (width / HALF).toFloat(),                           // x-axis alignment
+            ((height + Y_AXIS_BIAS) / HALF).toFloat(),          // y-axis alignment
+            canvasPainter                                       // painter
+        )
+    }
+
+
+    /**
+     * paints DOWNLOADING... text
+     */
+    private fun paintDownloading(canvas: Canvas) {
+        // update painter color
+        updatePainter(buttonTextColor)
+
+        // draw downloading text
+        canvas.drawText(
+            context.getString(R.string.toast_downloading),  // text
+            (width / HALF).toFloat(),                       // centerX
+            ((height + Y_AXIS_BIAS) / HALF).toFloat(),      // centerY
+            canvasPainter                                   // painter
+        )
+    }
+
+
+    /**
+     * paints DOWNLOAD COMPLETE text
+     */
+    private fun paintCompleted(canvas: Canvas) {
+        // update painter color
+        updatePainter(buttonTextColor)
+
+        // draw downloading text
+        canvas.drawText(
+            context.getString(R.string.button_download_complete),   // text
+            (width / HALF).toFloat(),                               // centerX
+            ((height + Y_AXIS_BIAS) / HALF).toFloat(),              // centerY
+            canvasPainter                                           // painter
         )
     }
 }
