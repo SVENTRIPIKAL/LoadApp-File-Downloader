@@ -119,11 +119,8 @@ class LoadingButton @JvmOverloads constructor(
 
 
     /**
-     * update button state and
-     * begin animation. Suppressed
-     * the call to super since it
-     * would deactivate the expected
-     * animation after its first completion.
+     * updates button state and
+     * begins animation.
      */
     fun startAnimation(): Boolean {
         buttonState = ButtonState.Loading
@@ -135,7 +132,7 @@ class LoadingButton @JvmOverloads constructor(
     /**
      * updates button UI to
      * the assigned state
-     * & call reset value animator.
+     * & calls reset value animator.
      */
     fun updateButtonUI(state: ButtonState) {
         buttonState = state
@@ -169,9 +166,9 @@ class LoadingButton @JvmOverloads constructor(
 
 
     /**
-     *  function that calculates and
-     *  updates the custom view's
-     *  width and height for onDraw
+     *  calculates and updates the
+     *  custom view's canvas width
+     *  and height for onDraw
      */
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         println("ON-MEASURE")
@@ -199,8 +196,8 @@ class LoadingButton @JvmOverloads constructor(
 
 
     /**
-     *  function that draws on the
-     *  custom view with any given
+     *  draws on the custom view
+     *  canvas with any given
      *  dimensions that are passed
      *  to the canvas
      */
@@ -213,18 +210,13 @@ class LoadingButton @JvmOverloads constructor(
         // paint button border on canvas
         paintBorder(canvas)
 
-        // paint button text on canvas
+        // paint button text on canvas w/ Circle
         paintText(canvas)
     }
 
 
     /**
      * updates any default painter values.
-     * attributes updated ordinally are
-     * inferred by their type automatically,
-     * and only need to point to attributes
-     * explicitly when values are changed
-     * out of order.
      */
     private fun updatePainter(
         painterColor: Int = Color.BLACK,
@@ -309,15 +301,15 @@ class LoadingButton @JvmOverloads constructor(
 
         // assign & paint text
         when (buttonState) {
-            ButtonState.Loading -> {
+            ButtonState.Loading -> {    // button loading
                 buttonText = resources.getString(R.string.toast_downloading)
                 paintDownloading(canvas)
             }
-            ButtonState.Completed -> {
+            ButtonState.Completed -> {  // button completed
                 buttonText = resources.getString(R.string.button_download_complete)
                 paintCompleted(canvas)
             }
-            else -> {
+            else -> {                   // button unclicked
                 buttonText = resources.getString(R.string.button_download_text)
                 paintDefault(canvas)
             }
@@ -335,9 +327,9 @@ class LoadingButton @JvmOverloads constructor(
         // draw default text
         canvas.drawText(
             context.getString(R.string.button_download_text),   // text
-            (width / HALF).toFloat(),                   // x-axis alignment
-            ((height + TEXT_Y_BIAS) / HALF).toFloat(),  // y-axis alignment
-            canvasPainter                               // painter
+            (width / HALF).toFloat(),                           // x-axis alignment
+            ((height + TEXT_Y_BIAS) / HALF).toFloat(),          // y-axis alignment
+            canvasPainter                                       // painter
         )
     }
 
@@ -346,16 +338,15 @@ class LoadingButton @JvmOverloads constructor(
      * paints DOWNLOADING... text with Circle
      */
     private fun paintDownloading(canvas: Canvas) {
-
         // update painter color - Text
         updatePainter(buttonTextColor)
 
         // draw downloading text
         canvas.drawText(
             context.getString(R.string.toast_downloading),  // text
-            (width / (HALF + TEXT_X_BIAS)).toFloat(),   // centerX
-            ((height + TEXT_Y_BIAS) / HALF).toFloat(),  // centerY
-            canvasPainter                               // painter
+            (width / (HALF + TEXT_X_BIAS)).toFloat(),       // centerX
+            ((height + TEXT_Y_BIAS) / HALF).toFloat(),      // centerY
+            canvasPainter                                   // painter
         )
 
         // update painter color - Circle
@@ -402,10 +393,10 @@ class LoadingButton @JvmOverloads constructor(
 
         // draw download complete text
         canvas.drawText(
-            context.getString(R.string.button_download_complete),                        // text
-            (width / HALF).toFloat(),                   // centerX
-            ((height + TEXT_Y_BIAS) / HALF).toFloat(),  // centerY
-            canvasPainter                               // painter
+            context.getString(R.string.button_download_complete),   // text
+            (width / HALF).toFloat(),                               // centerX
+            ((height + TEXT_Y_BIAS) / HALF).toFloat(),              // centerY
+            canvasPainter                                           // painter
         )
     }
 }

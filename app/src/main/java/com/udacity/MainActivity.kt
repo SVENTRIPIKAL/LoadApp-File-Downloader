@@ -418,7 +418,7 @@ class MainActivity : AppCompatActivity() {
                                 getString(R.string.url_retrofit)
                             )
                         }
-                        radioCustomUrl.id -> {       // Custom Url radio button
+                        radioCustomUrl.id -> {      // Custom Url radio button
                             showCustomUrlDialog(radioCustomUrl.text.toString())
                         }
                     }
@@ -618,7 +618,7 @@ class MainActivity : AppCompatActivity() {
                                 getString(R.string.toast_file_saved, fileSaveDir)
                             )
                         }
-                        STATUS_FAILED -> {  // update status extra & display failure toast
+                        STATUS_FAILED -> {      // update status extra & display failure toast
                             updateDownloadStatus(
                                 context,
                                 false,

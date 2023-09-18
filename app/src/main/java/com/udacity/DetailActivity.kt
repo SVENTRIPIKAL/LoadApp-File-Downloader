@@ -16,8 +16,10 @@ class DetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // layout binding
         binding = ActivityDetailBinding.inflate(layoutInflater)
 
+        // set view & action bar
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
 
