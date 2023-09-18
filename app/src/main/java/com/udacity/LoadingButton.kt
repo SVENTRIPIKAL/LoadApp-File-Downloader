@@ -341,11 +341,15 @@ class LoadingButton @JvmOverloads constructor(
         // update painter color - Text
         updatePainter(buttonTextColor)
 
+        // text center values
+        val textCenterX = (width / (HALF + TEXT_X_BIAS)).toFloat()
+        val textCenterY = ((height + TEXT_Y_BIAS) / HALF).toFloat()
+
         // draw downloading text
         canvas.drawText(
             context.getString(R.string.toast_downloading),  // text
-            (width / (HALF + TEXT_X_BIAS)).toFloat(),       // centerX
-            ((height + TEXT_Y_BIAS) / HALF).toFloat(),      // centerY
+            textCenterX,                                    // centerX
+            textCenterY,                                    // centerY
             canvasPainter                                   // painter
         )
 
@@ -353,7 +357,7 @@ class LoadingButton @JvmOverloads constructor(
         updatePainter(circleProgressColor)
 
         // allocate space for circle
-        centerCircleSpace()
+        centerCircleSpace(textCenterX, textCenterY)
 
         // draw circle arc
         canvas.drawArc(
@@ -368,18 +372,19 @@ class LoadingButton @JvmOverloads constructor(
 
     /**
      * centers & allocates empty space
-     * for drawing circle on canvas.
+     * for drawing circle on canvas
+     * according to text position values
      */
-    private fun centerCircleSpace() {
-        val size = ((TEXT_SIZE / HALF) + CIRCLE_SIZE_BIAS)
-        val centerX = (width - CIRCLE_X_BIAS).toFloat()
-        val centerY = (height / HALF).toFloat()
+    private fun centerCircleSpace(textCenterX: Float, textCenterY: Float) {
+        val circleSize = ((TEXT_SIZE / HALF) + CIRCLE_SIZE_BIAS)
+        val circleCenterX = textCenterX + ((width - textCenterX) / HALF) + CIRCLE_X_BIAS
+        val circleCenterY = textCenterY - (TEXT_Y_BIAS / HALF)
 
         circleSpace.set(
-            centerX - size,
-            centerY - size,
-            centerX + size,
-            centerY + size
+            circleCenterX - circleSize,
+            circleCenterY - circleSize,
+            circleCenterX + circleSize,
+            circleCenterY + circleSize
         )
     }
 
