@@ -62,11 +62,11 @@ class MainActivity : AppCompatActivity() {
      */
     private var requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
-    ) { isGranted: Boolean ->
+    ) { isPermissionGranted: Boolean ->
         // permission granted & download channel enabled
-        if (isGranted && isDownloadChannelEnabled()) {
+        if (isPermissionGranted && isDownloadChannelEnabled()) {
 
-            // enables/disables views
+            // disable views
             areViewsEnabled(false)
 
             // start button animation - non-blocking
@@ -75,9 +75,8 @@ class MainActivity : AppCompatActivity() {
             // run work in background - non-blocking
             backgroundIORequest()
         }
-
-        else // notify permissions required
-            showSettingsDialog()
+            // notify permissions required
+        else showSettingsDialog()
     }
 
 
@@ -302,13 +301,6 @@ class MainActivity : AppCompatActivity() {
 
         // register ui listeners
         setUIListeners()
-
-        // inform user to make a selection
-        Toast.makeText(
-            this,
-            getString(R.string.toast_select_file),
-            Toast.LENGTH_SHORT
-        ).show()
     }
 
 
@@ -398,6 +390,7 @@ class MainActivity : AppCompatActivity() {
                 // reset button UI to default state
                 refreshCustomButton()
 
+                // update download info by radio selection
                 radioGroup.apply {
                     when(checkedRadioButtonId) {
                         radioGlide.id -> {          // Glide radio button
@@ -430,12 +423,42 @@ class MainActivity : AppCompatActivity() {
                     getString(R.string.toast_click_button),
                     Toast.LENGTH_SHORT
                 ).show()
+            }
 
-                // set listener for button
-                customButton.setOnClickListener {
-                    // run check Manifest permissions
+
+            // custom button listener
+            customButton.setOnClickListener {
+
+                // check if a radio button selection is made
+                if (isSelectionMade()) {
+                    // continue to check Manifest permissions
                     checkManifestPermissions()
+
+                } else  {
+                    // inform user to make a selection
+                    Toast.makeText(
+                        this@MainActivity,
+                        getString(R.string.toast_select_file),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
+            }
+        }
+    }
+
+
+    /**
+     * returns true if a radio button
+     * selection has been made
+     */
+    private fun isSelectionMade(): Boolean {
+        binding.includeMain.apply {
+            return when(radioGroup.checkedRadioButtonId) {
+                radioGlide.id,
+                radioLoadApp.id,
+                radioRetrofit.id,
+                radioCustomUrl.id -> true
+                else -> false
             }
         }
     }
