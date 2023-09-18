@@ -2,9 +2,10 @@
 <resources>
     <!-- custom view styleable attributes -->
     <declare-styleable name="LoadingButton">
-        <attr name="buttonTextColor" format="integer" />
         <attr name="buttonBackgroundColor" format="integer" />
+        <attr name="buttonTextColor" format="integer" />
         <attr name="buttonBorderColor" format="integer" />
         <attr name="buttonProgressColor" format="integer" />
+        <attr name="circleProgressColor" format="integer" />
     </declare-styleable>
 </resources>

@@ -7,15 +7,21 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Paint.Align
+import android.graphics.RectF
 import android.graphics.Typeface
 import android.util.AttributeSet
 import android.view.View
 import com.udacity.utils.BORDER_STROKE_WIDTH
+import com.udacity.utils.CIRCLE_DEGREE_DIFFERENCE
+import com.udacity.utils.CIRCLE_SIZE_BIAS
+import com.udacity.utils.CIRCLE_START_ANGLE
+import com.udacity.utils.CIRCLE_X_BIAS
 import com.udacity.utils.HALF
 import com.udacity.utils.ONE
 import com.udacity.utils.TEXT_SIZE
+import com.udacity.utils.TEXT_X_BIAS
+import com.udacity.utils.TEXT_Y_BIAS
 import com.udacity.utils.TOTAL_PROGRESS
-import com.udacity.utils.Y_AXIS_BIAS
 import com.udacity.utils.ZERO
 import kotlin.properties.Delegates
 
@@ -23,28 +29,33 @@ class LoadingButton @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = ZERO
 ) : View(context, attrs, defStyleAttr) {
 
-    // canvas dimensions & painter
+    // canvas dimensions, painter, & empty circle space
     private var canvasWidth = ZERO
     private var canvasHeight = ZERO
     private var canvasPainter = Paint(Paint.ANTI_ALIAS_FLAG)
+    private val circleSpace = RectF()
 
     // button custom attributes
+    private val buttonBackgroundColor: Int
     private val buttonTextColor: Int
     private val buttonBorderColor: Int
     private val buttonProgressColor: Int
-    private val buttonBackgroundColor: Int
+    private val circleProgressColor: Int
 
     // button state
     private var buttonState: ButtonState by Delegates.observable(ButtonState.UnClicked) { p, old, new -> }
 
     // animation values
     @Volatile
-    private var animationProgress: Double = ZERO.toDouble()
-    private val valueAnimator: ValueAnimator = AnimatorInflater.loadAnimator(
+    private var circleProgress: Double = ZERO.toDouble()
+    @Volatile
+    private var buttonProgress: Double = ZERO.toDouble()
+    private val buttonAnimation: ValueAnimator = AnimatorInflater.loadAnimator(
         context, R.animator.button_loading_animation
     ) as ValueAnimator
-    private val valueAnimatorListener = ValueAnimator.AnimatorUpdateListener {
-        animationProgress = (it.animatedValue as Float).toDouble()
+    private val buttonAnimListener = ValueAnimator.AnimatorUpdateListener {
+        buttonProgress = (it.animatedValue as Float).toDouble()
+        circleProgress = (buttonProgress * CIRCLE_DEGREE_DIFFERENCE)
         invalidateView()
     }
 
@@ -65,32 +76,38 @@ class LoadingButton @JvmOverloads constructor(
         ).apply {
             try {
                 context.apply {
-                    // assign button color - default value
+                    // button color - default value
                     buttonBackgroundColor = getInt(
                         R.styleable.LoadingButton_buttonBackgroundColor,
                         getColor(R.color.colorPrimary)
                     )
 
-                    // assign button text color - default value
+                    // button text color - default value
                     buttonTextColor = getInt(
                         R.styleable.LoadingButton_buttonTextColor,
                         Color.WHITE
                     )
 
-                    // assign button border color - default value
+                    // button border color - default value
                     buttonBorderColor = getInt(
                         R.styleable.LoadingButton_buttonBorderColor,
                         getColor(R.color.colorPrimaryDark)
                     )
 
-                    // assign button progress color - default value
+                    // button progress color - default value
                     buttonProgressColor = getInt(
                         R.styleable.LoadingButton_buttonProgressColor,
                         getColor(R.color.colorSecondary)
                     )
 
-                    // value animator listener
-                    valueAnimator.addUpdateListener(valueAnimatorListener)
+                    // circle progress color - default value
+                    circleProgressColor = getInt(
+                        R.styleable.LoadingButton_circleProgressColor,
+                        getColor(R.color.colorAccent)
+                    )
+
+                    // add button animator value listener
+                    buttonAnimation.addUpdateListener(buttonAnimListener)
                 }
 
             } finally {
@@ -110,7 +127,7 @@ class LoadingButton @JvmOverloads constructor(
      */
     fun startAnimation(): Boolean {
         buttonState = ButtonState.Loading
-        valueAnimator.start()
+        buttonAnimation.start()
         return true
     }
 
@@ -132,8 +149,8 @@ class LoadingButton @JvmOverloads constructor(
      * calls invalidateView after.
      */
     private fun resetValueAnimator() {
-        valueAnimator.cancel()
-        animationProgress = when(buttonState) {
+        buttonAnimation.cancel()
+        buttonProgress = when(buttonState) {
             ButtonState.Completed -> TOTAL_PROGRESS.toDouble()
             else -> ZERO.toDouble()
         }
@@ -251,11 +268,11 @@ class LoadingButton @JvmOverloads constructor(
 
         // draw download progress color
         canvas.drawRect(
-            ZERO.toFloat(),                                             // x-axis start
-            ZERO.toFloat(),                                             // y-axis start
-            (width * (animationProgress / TOTAL_PROGRESS)).toFloat(),   // x-axis end
-            height.toFloat(),                                           // y-axis end
-            canvasPainter                                               // painter
+            ZERO.toFloat(),                                         // x-axis start
+            ZERO.toFloat(),                                         // y-axis start
+            (width * (buttonProgress / TOTAL_PROGRESS)).toFloat(),  // x-axis end
+            height.toFloat(),                                       // y-axis end
+            canvasPainter                                           // painter
         )
     }
 
@@ -318,26 +335,60 @@ class LoadingButton @JvmOverloads constructor(
         // draw default text
         canvas.drawText(
             context.getString(R.string.button_download_text),   // text
-            (width / HALF).toFloat(),                           // x-axis alignment
-            ((height + Y_AXIS_BIAS) / HALF).toFloat(),          // y-axis alignment
-            canvasPainter                                       // painter
+            (width / HALF).toFloat(),                   // x-axis alignment
+            ((height + TEXT_Y_BIAS) / HALF).toFloat(),  // y-axis alignment
+            canvasPainter                               // painter
         )
     }
 
 
     /**
-     * paints DOWNLOADING... text
+     * paints DOWNLOADING... text with Circle
      */
     private fun paintDownloading(canvas: Canvas) {
-        // update painter color
+
+        // update painter color - Text
         updatePainter(buttonTextColor)
 
         // draw downloading text
         canvas.drawText(
             context.getString(R.string.toast_downloading),  // text
-            (width / HALF).toFloat(),                       // centerX
-            ((height + Y_AXIS_BIAS) / HALF).toFloat(),      // centerY
-            canvasPainter                                   // painter
+            (width / (HALF + TEXT_X_BIAS)).toFloat(),   // centerX
+            ((height + TEXT_Y_BIAS) / HALF).toFloat(),  // centerY
+            canvasPainter                               // painter
+        )
+
+        // update painter color - Circle
+        updatePainter(circleProgressColor)
+
+        // allocate space for circle
+        centerCircleSpace()
+
+        // draw circle arc
+        canvas.drawArc(
+            circleSpace,
+            CIRCLE_START_ANGLE.toFloat(),
+            circleProgress.toFloat(),
+            true,
+            canvasPainter
+        )
+    }
+
+
+    /**
+     * centers & allocates empty space
+     * for drawing circle on canvas.
+     */
+    private fun centerCircleSpace() {
+        val size = ((TEXT_SIZE / HALF) + CIRCLE_SIZE_BIAS)
+        val centerX = (width - CIRCLE_X_BIAS).toFloat()
+        val centerY = (height / HALF).toFloat()
+
+        circleSpace.set(
+            centerX - size,
+            centerY - size,
+            centerX + size,
+            centerY + size
         )
     }
 
@@ -351,10 +402,10 @@ class LoadingButton @JvmOverloads constructor(
 
         // draw download complete text
         canvas.drawText(
-            context.getString(R.string.button_download_complete),   // text
-            (width / HALF).toFloat(),                               // centerX
-            ((height + Y_AXIS_BIAS) / HALF).toFloat(),              // centerY
-            canvasPainter                                           // painter
+            context.getString(R.string.button_download_complete),                        // text
+            (width / HALF).toFloat(),                   // centerX
+            ((height + TEXT_Y_BIAS) / HALF).toFloat(),  // centerY
+            canvasPainter                               // painter
         )
     }
 }
