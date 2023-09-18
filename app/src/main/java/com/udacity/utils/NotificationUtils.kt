@@ -25,6 +25,7 @@ const val TEXT_SIZE = 80
 const val BORDER_STROKE_WIDTH = 13
 const val NOTIFICATION_ID = ZERO
 const val SUCCESS_RESPONSE_OK = 200
+const val APP_DIR_NAME = "LOADAPP"
 const val FILE_NAME_EXTRA = "fileNameExtra"
 const val FILE_STATUS_EXTRA = "fileStatusExtra"
 

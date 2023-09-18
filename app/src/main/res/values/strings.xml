@@ -4,7 +4,7 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_detail">DetailActivity</string>
 
-    <string name="main_image_description">purple cloud with arrow in center pointing down</string>
+    <string name="main_image_description">purple cloud with arrow in center pointing downward</string>
 
     <string name="notification_title">Udacity: Android Kotlin Nanodegree</string>
     <string name="notification_description">The Project 3 repository is downloaded</string>
@@ -19,9 +19,9 @@
     <string name="button_download_complete">Download Complete</string>
     <string name="button_return_description">Return button</string>
 
-    <string name="toast_select_file">Select A File To Download</string>
+    <string name="toast_select_file">Select a file to Download</string>
     <string name="toast_click_button">Click Button</string>
-    <string name="toast_file_saved">File Saved To %1$s</string>
+    <string name="toast_file_saved">File saved to %1$s</string>
     <string name="toast_download_failed">Download Failed…</string>
     <string name="toast_downloading">Downloading…</string>
     <string name="toast_unknown_host_exception">Unknown Host…Address Does Not Exist</string>
@@ -36,7 +36,7 @@
     <string name="dialog_message">%1$s requests this %2$s be enabled in your app settings.</string>
     <string name="dialog_message_high_api">channel</string>
     <string name="dialog_message_low_api">feature</string>
-    <string name="dialog_message_exit">You are about to exit the app.</string>
+    <string name="dialog_message_exit">You are about to exit the app</string>
 
     <string name="dialog_positive_text">GOTO SETTINGS</string>
     <string name="dialog_positive_exit">Yes</string>
@@ -49,6 +49,7 @@
     <string name="text_return">RETURN</string>
     <string name="text_period">.</string>
     <string name="text_space">" "</string>
+    <string name="text_slash">"/"</string>
     <string name="text_glide">Glide - Image Loading Library by BumpTech</string>
     <string name="text_loadapp">LoadApp - Current repository by Udacity</string>
     <string name="text_retrofit">Retrofit - Type-safe HTTP client for Android and Java by Square, Inc</string>

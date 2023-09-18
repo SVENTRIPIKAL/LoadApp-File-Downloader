@@ -24,6 +24,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationManagerCompat
 import com.udacity.databinding.ActivityMainBinding
+import com.udacity.utils.APP_DIR_NAME
 import com.udacity.utils.ONE
 import com.udacity.utils.SUCCESS_RESPONSE_OK
 import com.udacity.utils.ZERO
@@ -34,11 +35,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.File
 import java.net.HttpURLConnection
 import java.net.MalformedURLException
 import java.net.URL
 import java.net.UnknownHostException
 import kotlin.properties.Delegates
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -50,7 +53,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var notificationManager: NotificationManager
 
     private lateinit var fileNameExtra: String
-    private lateinit var fileSaveDirectory: String
+    private lateinit var fileSaveDir: String
     private var fileStatusExtra by Delegates.notNull<Boolean>()
 
 
@@ -117,15 +120,41 @@ class MainActivity : AppCompatActivity() {
      * runs the following code block in a background
      * thread & does not block the running thread it
      * comes from. returns to the UI thread only to
-     * process any failed results & continues in IO
-     * until request fully queues for download.
+     * process any failed results & continues suspended
+     * in IOs until requests fully queue for download.
      */
     private fun backgroundIORequest() = MainScope().launch {
 
         // execute this blocking coroutine scope in a separate background thread
         withContext(Dispatchers.IO) {
+            println("DISPATCHERS.IO - MAKEDIR")
 
-            println("DISPATCHERS.IO")
+            // get Downloads path
+            val defaultDir = getString(
+                R.string.file_save_directory,
+                Environment.getExternalStorageDirectory(),
+                Environment.DIRECTORY_DOWNLOADS
+            )
+
+            // new directory path
+            val newDir = File(defaultDir, APP_DIR_NAME)
+
+            // check if dir already exists & creation succeeds
+            if (!newDir.exists() && newDir.mkdir() || newDir.exists()) {
+
+                val slash = resources.getString(R.string.text_slash)
+
+                val newSaveDir = defaultDir.plus("$slash$APP_DIR_NAME$slash")
+
+                // update file save dir with new dir
+                fileSaveDir = newSaveDir
+            }
+        }
+
+
+        // execute this blocking coroutine scope in a separate background thread
+        withContext(Dispatchers.IO) {
+            println("DISPATCHERS.IO - DOWNLOAD")
 
             try {
                 // check if url returns a response status code
@@ -224,17 +253,18 @@ class MainActivity : AppCompatActivity() {
      *  download file id
      */
     private fun downloadFile() {
-        // extract file extension & title
+        // extract file extension, name, & subDirectory
         val space = getString(R.string.text_space)
         val period = getString(R.string.text_period)
         val ext = downloadUrl.substringAfterLast(period)
-        val title = fileNameExtra.substringBefore(space).plus("$period$ext")
+        val fileName = fileNameExtra.substringBefore(space).plus("$period$ext")
+        val subDir = fileSaveDir.substringAfter(Environment.DIRECTORY_DOWNLOADS)
 
         // download query   [set title, description, directory, visibility]
         val request = DownloadManager.Request(Uri.parse(downloadUrl))
-            .setTitle(title)
+            .setTitle(fileName)
             .setDescription(downloadUrl)
-            .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, title)
+            .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, subDir + fileName)
             .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
 
         // que download & update downloadId
@@ -333,8 +363,8 @@ class MainActivity : AppCompatActivity() {
      *  assign & create download & notification services
      */
     private fun registerSystemServices() {
-        // assign file save location
-        fileSaveDirectory = getString(
+        // assign default file save location
+        fileSaveDir = getString(
             R.string.file_save_directory,
             Environment.getExternalStorageDirectory(),
             Environment.DIRECTORY_DOWNLOADS
@@ -585,7 +615,7 @@ class MainActivity : AppCompatActivity() {
                             updateDownloadStatus(
                                 context,
                                 true,
-                                getString(R.string.toast_file_saved, fileSaveDirectory)
+                                getString(R.string.toast_file_saved, fileSaveDir)
                             )
                         }
                         STATUS_FAILED -> {  // update status extra & display failure toast
