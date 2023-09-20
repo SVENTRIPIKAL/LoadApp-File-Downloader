@@ -1,7 +1,9 @@
 # LoadApp-File-Downloader
 
-![Static Badge](https://img.shields.io/badge/Android%20Studio%20Giraffe-2022.3.1-yellow?style=plastic&logo=Android%20Studio&color=%23ffff00)  
-![KOTLIN](https://img.shields.io/badge/Kotlin-100%25-Pink?style=plastic&logo=Kotlin&color=%238c53c6) ![API](https://img.shields.io/badge/API-24%2B-Green?style=plastic&logo=API&color=%2379ff2f) ![License](https://img.shields.io/badge/License-MIT-blue?style=plastic&logo=License&color=%236495ed)
+![LICENSE](https://img.shields.io/badge/License-MIT-blue?style=plastic&logo=License&color=%236495ed)  
+![KOTLIN](https://img.shields.io/badge/Kotlin-100%25-Pink?style=plastic&logo=Kotlin&color=%238c53c6)
+![API](https://img.shields.io/badge/API-24%2B-Green?style=plastic&logo=API&color=%2379ff2f)  
+![ANDROID STUDIO](https://img.shields.io/badge/Android%20Studio%20Giraffe-2022.3.1-yellow?style=plastic&logo=Android%20Studio&color=%23ffff00)
 
 ## Table of Contents
 - [Description](#description)
