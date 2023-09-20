@@ -2,12 +2,12 @@
 
 <p align="center">
     <a href="https://bumptech.github.io/glide/dev/open-source-licenses.html">
-        <img alt="Static Badge" src="https://img.shields.io/badge/License-Open%20Source-Blue?style=plastic&color=%236495ed"/>
+        <img alt="License" src="https://img.shields.io/badge/License-Open%20Source-Blue?style=plastic&color=%236495ed"/>
         </a></br>
     <a href="https://kotlinlang.org/docs/android-overview.html">
         <img alt="Kotlin" src="https://img.shields.io/badge/Kotlin-100%25-purple?style=plastic&logo=kotlin&color=%238c53c6&link=https%3A%2F%2Fkotlinlang.org%2Fdocs%2Fandroid-overview.html"/>
         </a>
-    <a href="https://developer.android.com/tools/releases/platforms"> <img alt="API Level" src="https://img.shields.io/badge/API-24%2B-green?style=plastic&logo=Android&color=%2379ff2f"/>
+    <a href="https://developer.android.com/tools/releases/platforms"> <img alt="API" src="https://img.shields.io/badge/API-24%2B-green?style=plastic&logo=Android&color=%2379ff2f"/>
         </a></br>
     <a href="https://developer.android.com/studio/releases">
         <img alt="Android Studio" src="https://img.shields.io/badge/Android%20Studio%20Giraffe-2022.3.1-yellow?style=plastic&logo=Android%20Studio&color=%23ffff00"/> </a>
