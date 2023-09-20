@@ -1,9 +1,17 @@
-# LoadApp-File-Downloader
+<h1 align="center"> LoadApp-File-Downloader </h1>
 
-![LICENSE](https://img.shields.io/badge/License-MIT-blue?style=plastic&logo=License&color=%236495ed)  
-![KOTLIN](https://img.shields.io/badge/Kotlin-100%25-Pink?style=plastic&logo=Kotlin&color=%238c53c6)
-![API](https://img.shields.io/badge/API-24%2B-Green?style=plastic&logo=API&color=%2379ff2f)  
-![ANDROID STUDIO](https://img.shields.io/badge/Android%20Studio%20Giraffe-2022.3.1-yellow?style=plastic&logo=Android%20Studio&color=%23ffff00)
+<p align="center">
+    <a href="https://bumptech.github.io/glide/dev/open-source-licenses.html">
+        <img alt="Static Badge" src="https://img.shields.io/badge/License-Open%20Source-Blue?style=plastic&color=%236495ed"/>
+        </a></br>
+    <a href="https://kotlinlang.org/docs/android-overview.html">
+        <img alt="Kotlin" src="https://img.shields.io/badge/Kotlin-100%25-purple?style=plastic&logo=kotlin&color=%238c53c6&link=https%3A%2F%2Fkotlinlang.org%2Fdocs%2Fandroid-overview.html"/>
+        </a>
+    <a href="https://developer.android.com/tools/releases/platforms"> <img alt="API Level" src="https://img.shields.io/badge/API-24%2B-green?style=plastic&logo=Android&color=%2379ff2f"/>
+        </a></br>
+    <a href="https://developer.android.com/studio/releases">
+        <img alt="Android Studio" src="https://img.shields.io/badge/Android%20Studio%20Giraffe-2022.3.1-yellow?style=plastic&logo=Android%20Studio&color=%23ffff00"/> </a>
+</p>
 
 ## Table of Contents
 - [Description](#description)
@@ -54,11 +62,11 @@ Basic concept & photos provided by ***Udacity's Android Kotlin Developer Nanodeg
 - An overridden `onDraw` method & `Painter` object to position & paint objects on the `Canvas`
 
 ## Installation
-1. Fork the repository & clone it to your local machine
-2. Open the project in Android Studio - ***latest version is recommended***
-3. Launch the app on any emulator or physcial device running API Level 24+
-4. Enjoy & feel free to message me if you happen across any bugs
-5. :star: the repository if you found this project helpful & follow me for a follow back
+1. `Fork` the repository & `Clone` it to your local computer
+2. Open the project in `Android Studio` - ***current version recommended***
+3. `Launch` the app on any `Android Emulator` or `Physcial Device` running API Level 24+
+4. Enjoy & feel free to submit a `Pull Request` if you happen across a 🐛
+5. `🌟` the repository if you found this project helpful & `Follow` me for a follow back 👌
 
 ## TakeAways
 1. How to handle multiple API levels, exceptions, & anticipated user actions
@@ -96,26 +104,4 @@ Basic concept & photos provided by ***Udacity's Android Kotlin Developer Nanodeg
 ```
 
 ## License
-```
-MIT License
-
-Copyright (c) 2023 SVENTRIPIKAL (Jose Garza)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
+Please review the following [license agreement](https://bumptech.github.io/glide/dev/open-source-licenses.html)
