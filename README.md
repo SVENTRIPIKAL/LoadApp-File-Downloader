@@ -19,10 +19,11 @@
 </p>
 
 <p align="center">
-    <img src="app/src/main/ic_launcher-playstore.png" alt="App Logo" width="300" height="300"/>
+    <img src="https://github.com/SVENTRIPIKAL/LoadApp-File-Downloader/assets/90730468/153a0273-031a-4611-b5db-d93351f4a9a3" alt="App Logo"/>
 </p>
 
 ## Table of Contents
+
 - [Description](#description)
 - [Inspiration](#inspiration)
 - [Features](#features)
