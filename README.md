@@ -10,10 +10,11 @@
     <a href="https://developer.android.com/tools/releases/platforms"> <img alt="API" src="https://img.shields.io/badge/API-24%2B-green?style=plastic&logo=Android&color=%2379ff2f"/>
         </a></br>
     <a href="https://developer.android.com/studio/releases">
-        <img alt="Android Studio" src="https://img.shields.io/badge/Android%20Studio%20Giraffe-2022.3.1-yellow?style=plastic&logo=Android%20Studio&color=%23ffff00"/> </a></br>
+        <img alt="Android Studio" src="https://img.shields.io/badge/Android%20Studio%20Giraffe-2022.3.1-yellow?style=plastic&logo=Android%20Studio&color=%23ffff00"/>
+        </a></br>
     <a href="https://www.udacity.com/course/android-kotlin-developer-nanodegree--nd940">
         <img alt="Static Badge" src="https://img.shields.io/badge/Udacity-Android%20Kotlin%20Developer%20Nanodegree-Color?style=plastic&logo=Udacity&logoColor=%234829a4&label=UDACITY&color=%234829a4"/>
-    </a>
+        </a>
 </p>
 
 ## Table of Contents
