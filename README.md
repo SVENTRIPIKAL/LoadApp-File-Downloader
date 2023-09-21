@@ -39,8 +39,8 @@ the user a `Notification` after completion. The download button provided on the
 Main screen is a `Custom Button` extending the `View` class which animates both  
 horizontally and in a center-filled arc while the file downloads. Once completed,  
 users can click on the notification content to navigate directly to their `Downloads`  
-directory, or the notification's `Action Button` to navigate to a Details screen with  
-animated views via `MotionLayout` that provides the downloaded file's name, final  
+directory, or the notification's `Action Button` to navigate to a Details screen  
+animated by `MotionLayout` which provides the downloaded file's name, final  
 download status, and a return to Main screen button.
 
 ## Inspiration
