@@ -66,7 +66,7 @@ Basic concept & photos provided by ***Udacity's Android Kotlin Developer Nanodeg
 2. Open the project in `Android Studio` - ***current version recommended***
 3. `Launch` the app on any `Android Emulator` or `Physcial Device` running API Level 24+
 4. Enjoy & feel free to submit a `Pull Request` if you happen across a 🐛
-5. `🌟` the repository if you found this project helpful & `Follow` me for a follow back 👌
+5. `🌟` the repository if you found this project helpful & `Follow` me for a follow back 👍
 
 ## TakeAways
 1. How to handle multiple API levels, exceptions, & anticipated user actions
