@@ -19,8 +19,6 @@
 </p>
 
 
-![loadApp_logo](https://github.com/SVENTRIPIKAL/LoadApp-File-Downloader/assets/90730468/390b2fa3-b4ce-4f19-a886-6793b902f587)
-
 ## Table of Contents
 - [Description](#description)
 - [Inspiration](#inspiration)
