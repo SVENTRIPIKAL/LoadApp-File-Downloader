@@ -49,12 +49,12 @@ Basic concept & photos provided by ***Udacity's Android Kotlin Developer Nanodeg
 ## Features
 - `Permission Request Codes` managed by the OS system via `Androidx.Activity` library
     - > **IMPORTANT**  
-      > Permissions need to be granted in order for the app to run as intended
+      > Permissions need to be granted in order for the app to run as described
 - `Intent Activities` driven by user decisions within Dialogs & Notifications
 - `API` level checks which differentiate application functionality & permission dialogs
     - `Android 8.0 (Level 26) & Above` - `POST_NOTIFICATIONS` permission handling
     - `Former Releases` - `WRITE_EXTERNAL_STORAGE` permission handling
-- A `Material 3 Design` Component, `Radio Buttons`, allowing users to select pre-linked files
+- A `Material 3 Design` Component, `Radio Buttons`, allowing users to select files
     - An `Edit Text View` dialog that allows users to enter their own download `URL` 
 - `Multi-threading` to allow `UI` animations while concurrently running background `IO` tasks:
     1. Tries to create `/LOADAPP` directory in `/storage/emulated/0/Download`
@@ -67,9 +67,9 @@ Basic concept & photos provided by ***Udacity's Android Kotlin Developer Nanodeg
         - `UnknownHostException` - "Unknown Host...Address Does Not Exist"
         - `MalformedURLException` - "Malformed URL...No DNS Protocol Exists"
         - `Other Exceptions` - Prints exception & message to console for future handling
-- A `Custom Button` extending the View class in order to provide a custom style & animation
-- Custom view `attributes` provided to `value animator`, `listener`, & a `.xml` animation
-- An overridden `onDraw` method & `Painter` object to position & paint objects on the `Canvas`
+- A `Custom Button` extending the View class which provides a personalized style & animation
+- Custom view `attributes` provided for `value animator`, `listener`, & a `.xml` animation file
+- An overridden `onDraw` method & `Painter` object which positions & paints objects on the `Canvas`
 
 ## Installation
 1. `Fork` the repository & `Clone` it to your local computer
