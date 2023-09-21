@@ -5,7 +5,7 @@
         <img alt="License" src="https://img.shields.io/badge/License-Open%20Source-Blue?style=plastic&color=%236495ed"/>
         </a></br>
     <a href="https://kotlinlang.org/docs/android-overview.html">
-        <img alt="Kotlin" src="https://img.shields.io/badge/Kotlin-100%25-purple?style=plastic&logo=kotlin&color=%238c53c6&link=https%3A%2F%2Fkotlinlang.org%2Fdocs%2Fandroid-overview.html"/>
+        <img alt="Kotlin" src="https://img.shields.io/badge/Kotlin-100%25-LightPurple?style=plastic&logo=kotlin&color=%238c53c6&link=https%3A%2F%2Fkotlinlang.org%2Fdocs%2Fandroid-overview.html"/>
         </a>
     <a href="https://developer.android.com/tools/releases/platforms">
         <img alt="API" src="https://img.shields.io/badge/API-24%2B-green?style=plastic&logo=Android&color=%2379ff2f"/>
@@ -14,7 +14,7 @@
         <img alt="Android Studio" src="https://img.shields.io/badge/Android%20Studio%20Giraffe-2022.3.1-yellow?style=plastic&logo=Android%20Studio&color=%23ffff00"/>
         </a></br>
     <a href="https://www.udacity.com/course/android-kotlin-developer-nanodegree--nd940">
-        <img alt="Udacity" src="https://img.shields.io/badge/Udacity-Android%20Kotlin%20Developer%20Nanodegree-Purple?style=plastic&logo=Udacity&logoColor=%234829a4&label=UDACITY&color=%234829a4"/>
+        <img alt="Udacity" src="https://img.shields.io/badge/Udacity-Android%20Kotlin%20Developer%20Nanodegree-DarkPurple?style=plastic&logo=Udacity&logoColor=%23600080&label=UDACITY&color=%23600080"/>
         </a>
 </p>
 
