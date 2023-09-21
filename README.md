@@ -54,7 +54,7 @@ Basic concept & photos provided by ***Udacity's Android Kotlin Developer Nanodeg
 - `API` level checks which differentiate application functionality & permission dialogs
     - `Android 8.0 (Level 26) & Above` - `POST_NOTIFICATIONS` permission handling
     - `Former Releases` - `WRITE_EXTERNAL_STORAGE` permission handling
-- A `Material 3 Design` Component, `Radio Buttons`, allowing users to select files
+- A `Material 3 Design` Component, `Radio Buttons`, allowing users to select a file
     - An `Edit Text View` dialog that allows users to enter their own download `URL` 
 - `Multi-threading` to allow `UI` animations while concurrently running background `IO` tasks:
     1. Tries to create `/LOADAPP` directory in `/storage/emulated/0/Download`
