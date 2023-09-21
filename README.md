@@ -72,11 +72,11 @@ Basic concept & photos provided by ***Udacity's Android Kotlin Developer Nanodeg
 - An overridden `onDraw` method & `Painter` object which positions & paints objects on the `Canvas`
 
 ## Installation
-1. `Fork` the repository & `Clone` it to your local computer
-2. Open the project in `Android Studio` - ***current version recommended***
-3. `Launch` the app on any `Android Emulator` or `Physcial Device` running API Level 24+
-4. Enjoy & feel free to submit a `Pull Request` if you happen across a 🐛
-5. `🌟` the repository if you found this project helpful & `Follow` me for a follow back 🤝
+1. `Fork` the `Repository` & `Clone` it to your `Local Computer`
+2. `Open` the `Project` in `Android Studio` ***(current version recommended)***
+3. `Launch` the `App` on any `Android Emulator` or `Physcial Device` running `API Level 24+`
+4. `Enjoy` & feel free to `Submit` a `Pull Request` if you happen across a `🐛`
+5. `🌟` the `Repository` if you found this project helpful & `Follow` me for a follow back `🤝`
 
 ## TakeAways
 1. How to handle multiple API levels, exceptions, & anticipated user actions
