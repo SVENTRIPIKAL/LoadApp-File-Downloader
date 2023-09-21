@@ -2,22 +2,25 @@
 
 <p align="center">
     <a href="https://bumptech.github.io/glide/dev/open-source-licenses.html">
-        <img alt="License" src="https://img.shields.io/badge/License-Open%20Source-LightBlue?style=plastic&color=%236495ed"/>
+        <img alt="License Badge" src="https://img.shields.io/badge/License-Open%20Source-LightBlue?style=plastic&color=%236495ed"/>
         </a></br>
     <a href="https://kotlinlang.org/docs/android-overview.html">
-        <img alt="Kotlin" src="https://img.shields.io/badge/Kotlin-100%25-LightPurple?style=plastic&logo=kotlin&color=%238c53c6&link=https%3A%2F%2Fkotlinlang.org%2Fdocs%2Fandroid-overview.html"/>
+        <img alt="Kotlin Badge" src="https://img.shields.io/badge/Kotlin-100%25-LightPurple?style=plastic&logo=kotlin&color=%238c53c6&link=https%3A%2F%2Fkotlinlang.org%2Fdocs%2Fandroid-overview.html"/>
         </a>
     <a href="https://developer.android.com/tools/releases/platforms">
-        <img alt="API" src="https://img.shields.io/badge/API-24%2B-LightGreen?style=plastic&logo=Android&color=%2379ff2f"/>
+        <img alt="API Badge" src="https://img.shields.io/badge/API-24%2B-LightGreen?style=plastic&logo=Android&color=%2379ff2f"/>
         </a></br>
     <a href="https://developer.android.com/studio/releases">
-        <img alt="Android Studio" src="https://img.shields.io/badge/Android%20Studio%20Giraffe-2022.3.1-Yellow?style=plastic&logo=Android%20Studio&color=%23ffff00"/>
+        <img alt="Android Studio Badge" src="https://img.shields.io/badge/Android%20Studio%20Giraffe-2022.3.1-Yellow?style=plastic&logo=Android%20Studio&color=%23ffff00"/>
         </a></br>
     <a href="https://www.udacity.com/course/android-kotlin-developer-nanodegree--nd940">
-        <img alt="Udacity" src="https://img.shields.io/badge/Udacity-Android%20Kotlin%20Developer%20Nanodegree-MediumPurple?style=plastic&logo=Udacity&logoColor=%236533cb&label=UDACITY&color=%236533cb"/>
+        <img alt="Udacity Badge" src="https://img.shields.io/badge/Udacity-Android%20Kotlin%20Developer%20Nanodegree-MediumPurple?style=plastic&logo=Udacity&logoColor=%236533cb&label=UDACITY&color=%236533cb"/>
         </a>
 </p>
 
+<p align="center">
+    <img src="app/src/main/ic_launcher-playstore.png" alt="App Logo" width="300" height="300"/>
+</p>
 
 ## Table of Contents
 - [Description](#description)
