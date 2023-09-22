@@ -17,7 +17,7 @@
         <img alt="Android Studio Badge" src="https://img.shields.io/badge/Android_Studio_Giraffe-2022.3.1-Yellow?style=plastic&logo=Android%20Studio&color=%23ffff00"/>
         </a>
     <a href="https://gradle.org/releases/">
-        <img alt="Gradle Badge" src="https://img.shields.io/badge/Gradle-7.3.1-Aqua?style=plastic&logo=Gradle&logoColor=%234DC9C0&color=%234DC9C0">
+        <img alt="Gradle Badge" src="https://img.shields.io/badge/Gradle-7.5-Aqua?style=plastic&logo=Gradle&logoColor=%234DC9C0&color=%234DC9C0">
         </a>
 </p>
 
