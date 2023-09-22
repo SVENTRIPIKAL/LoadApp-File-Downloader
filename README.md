@@ -107,7 +107,7 @@ page for more comprehensive inquiries.
 |[Androidx Core-KTX](https://developer.android.com/kotlin/ktx#core)|`provides Kotlin support for Android Framework & Support Libraries`|
 |[Androidx AppCompat](https://developer.android.com/jetpack/androidx/releases/appcompat)|`provides backwards compatibility for older API levels`|
 |[Androidx Material Design](https://developer.android.com/develop/ui/views/theming/look-and-feel)|`provides visual, motion, and interaction design across platforms and devices`|
-|[Androidx ConstraintLayout](https://developer.android.com/reference/androidx/constraintlayout/widget/ConstraintLayout)|`provides more UI control in Android Studio's Design Layouts`|
+|[Androidx ConstraintLayout](https://developer.android.com/develop/ui/views/layout/constraint-layout)|`provides more UI control in Android Studio's Design Layouts`|
 |[Androidx JUnit](https://developer.android.com/training/testing/local-tests)|`provides support for JUnit testing framework`|
 |[Androidx Espresso](https://developer.android.com/training/testing/local-tests)|`provides support for UI unit testing`| 
 
