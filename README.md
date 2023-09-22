@@ -2,19 +2,19 @@
 
 <p align="center">
     <a href="https://bumptech.github.io/glide/dev/open-source-licenses.html">
-        <img alt="License Badge" src="https://img.shields.io/badge/License-Open%20Source-LightBlue?style=plastic&color=%236495ed"/>
+        <img alt="License Badge" src="https://img.shields.io/badge/License-Open--Source-LightBlue?style=plastic&logo=ReadMe&logoColor=6495ed&color=6495ed">
         </a></br>
     <a href="https://kotlinlang.org/docs/android-overview.html">
-        <img alt="Kotlin Badge" src="https://img.shields.io/badge/Kotlin-100%25-LightPurple?style=plastic&logo=kotlin&color=%238c53c6&link=https%3A%2F%2Fkotlinlang.org%2Fdocs%2Fandroid-overview.html"/>
+        <img alt="Kotlin Badge" src="https://img.shields.io/badge/Kotlin-100%25-LightPurple?style=plastic&logo=Kotlin&color=%238c53c6&link=https%3A%2F%2Fkotlinlang.org%2Fdocs%2Fandroid-overview.html"/>
         </a>
     <a href="https://developer.android.com/tools/releases/platforms">
         <img alt="API Badge" src="https://img.shields.io/badge/API-24_–_33-LightGreen?style=plastic&logo=Android&color=%2379ff2f"/>
         </a></br>
     <a href="https://developer.android.com/studio/releases">
-        <img alt="Android Studio Badge" src="https://img.shields.io/badge/Android%20Studio%20Giraffe-2022.3.1-Yellow?style=plastic&logo=Android%20Studio&color=%23ffff00"/>
+        <img alt="Android Studio Badge" src="https://img.shields.io/badge/Android_Studio_Giraffe-2022.3.1-Yellow?style=plastic&logo=Android_Studio&color=%23ffff00"/>
         </a></br>
     <a href="https://www.udacity.com/course/android-kotlin-developer-nanodegree--nd940">
-        <img alt="Udacity Badge" src="https://img.shields.io/badge/Udacity-Android%20Kotlin%20Developer%20Nanodegree-MediumPurple?style=plastic&logo=Udacity&logoColor=%236533cb&label=Udacity&color=%236533cb"/>
+        <img alt="Udacity Badge" src="https://img.shields.io/badge/Udacity-Android_Kotlin_Developer_Nanodegree-MediumPurple?style=plastic&logo=Udacity&logoColor=%236533cb&label=Udacity&color=%236533cb"/>
         </a>
 </p>
 
