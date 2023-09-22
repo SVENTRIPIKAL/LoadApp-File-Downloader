@@ -97,21 +97,19 @@ Basic concept & photos provided by ***Udacity's Android Kotlin Developer Nanodeg
 16. How to build & send notifications with Notification Manager, & apply Actions & Flags
 
 ## Dependencies
-```
-    // androidx.activity [Allow system to manage permission request codes]
-    def activityVersion = "1.7.2"
-    implementation "androidx.activity:activity-ktx:$activityVersion"
+`LoadApp` utilizes the following `libraries` to function properly. A brief `description` defining  
+their usage is provided, but each library is `hyperlinked` to their specific `documentation`  
+page for more comprehensive inquiries.
 
-    //noinspection GradleDependency
-    implementation 'androidx.core:core-ktx:1.10.1'
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.9.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-```
+| **Library** | **Description** |
+| ------ | ------ |
+|[Androidx Activity](https://developer.android.com/jetpack/androidx/releases/activity)|`allows the OS system to manage permission request codes`|
+|[Androidx Core-KTX](https://developer.android.com/kotlin/ktx#core)|`provides Kotlin support for Android Framework & Support Libraries`|
+|[Androidx AppCompat](https://developer.android.com/jetpack/androidx/releases/appcompat)|`provides backwards compatibility for older API levels`|
+|[Androidx Material Design](https://developer.android.com/develop/ui/views/theming/look-and-feel)|`provides visual, motion, and interaction design across platforms and devices`|
+|[Androidx ConstraintLayout](https://developer.android.com/reference/androidx/constraintlayout/widget/ConstraintLayout)|`provides more UI control in Android Studio's Design Layouts`|
+|[Androidx JUnit](https://developer.android.com/training/testing/local-tests)|`provides support for JUnit testing framework`|
+|[Androidx Espresso](https://developer.android.com/training/testing/local-tests)|`provides support for UI unit testing`|
 
 ## License
 Please review the following [license agreement](https://bumptech.github.io/glide/dev/open-source-licenses.html)
