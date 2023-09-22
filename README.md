@@ -8,7 +8,7 @@
         <img alt="Kotlin Badge" src="https://img.shields.io/badge/Kotlin-100%25-LightPurple?style=plastic&logo=kotlin&color=%238c53c6&link=https%3A%2F%2Fkotlinlang.org%2Fdocs%2Fandroid-overview.html"/>
         </a>
     <a href="https://developer.android.com/tools/releases/platforms">
-        <img alt="API Badge" src="https://img.shields.io/badge/API-24%2B-LightGreen?style=plastic&logo=Android&color=%2379ff2f"/>
+        <img alt="API Badge" src="https://img.shields.io/badge/API-24_–_33-LightGreen?style=plastic&logo=Android&color=%2379ff2f"/>
         </a></br>
     <a href="https://developer.android.com/studio/releases">
         <img alt="Android Studio Badge" src="https://img.shields.io/badge/Android%20Studio%20Giraffe-2022.3.1-Yellow?style=plastic&logo=Android%20Studio&color=%23ffff00"/>
