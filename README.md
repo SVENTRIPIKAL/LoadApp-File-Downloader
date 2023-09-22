@@ -44,7 +44,7 @@ animated by `MotionLayout` which provides the downloaded file's name, final
 download status, and a return to Main screen button.
 
 ## Inspiration
-Basic concept & photos provided by ***Udacity's Android Kotlin Developer Nanodegree*** course
+Concept & photo provided by [***Udacity's Android Kotlin Developer Nanodegree***](https://www.udacity.com/course/android-kotlin-developer-nanodegree--nd940) course
 
 ## Features
 - `Permission Request Codes` managed by the OS system via `Androidx.Activity` library
