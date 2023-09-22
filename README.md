@@ -14,7 +14,7 @@
         <img alt="Android Studio Badge" src="https://img.shields.io/badge/Android%20Studio%20Giraffe-2022.3.1-Yellow?style=plastic&logo=Android%20Studio&color=%23ffff00"/>
         </a></br>
     <a href="https://www.udacity.com/course/android-kotlin-developer-nanodegree--nd940">
-        <img alt="Udacity Badge" src="https://img.shields.io/badge/Udacity-Android%20Kotlin%20Developer%20Nanodegree-MediumPurple?style=plastic&logo=Udacity&logoColor=%236533cb&label=UDACITY&color=%236533cb"/>
+        <img alt="Udacity Badge" src="https://img.shields.io/badge/Udacity-Android%20Kotlin%20Developer%20Nanodegree-MediumPurple?style=plastic&logo=Udacity&logoColor=%236533cb&label=Udacity&color=%236533cb"/>
         </a>
 </p>
 
