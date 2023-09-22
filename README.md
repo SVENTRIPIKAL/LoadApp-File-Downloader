@@ -10,11 +10,14 @@
     <a href="https://developer.android.com/tools/releases/platforms">
         <img alt="API Badge" src="https://img.shields.io/badge/API-24_–_33-LightGreen?style=plastic&logo=Android&color=%2379ff2f"/>
         </a></br>
-    <a href="https://developer.android.com/studio/releases">
-        <img alt="Android Studio Badge" src="https://img.shields.io/badge/Android_Studio_Giraffe-2022.3.1-Yellow?style=plastic&logo=Android_Studio&color=%23ffff00"/>
-        </a></br>
     <a href="https://www.udacity.com/course/android-kotlin-developer-nanodegree--nd940">
         <img alt="Udacity Badge" src="https://img.shields.io/badge/Udacity-Android_Kotlin_Developer_Nanodegree-MediumPurple?style=plastic&logo=Udacity&logoColor=%236533cb&label=Udacity&color=%236533cb"/>
+        </a></br>
+    <a href="https://developer.android.com/studio/releases">
+        <img alt="Android Studio Badge" src="https://img.shields.io/badge/Android_Studio_Giraffe-2022.3.1-Yellow?style=plastic&logo=Android%20Studio&color=%23ffff00"/>
+        </a>
+    <a href="https://gradle.org/releases/">
+        <img alt="Gradle Badge" src="https://img.shields.io/badge/Gradle-7.3.1-Aqua?style=plastic&logo=Gradle&logoColor=%234DC9C0&color=%234DC9C0">
         </a>
 </p>
 
