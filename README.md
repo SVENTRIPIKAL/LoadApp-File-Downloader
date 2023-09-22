@@ -23,7 +23,6 @@
 </p>
 
 ## Table of Contents
-
 - [Description](#description)
 - [Inspiration](#inspiration)
 - [Features](#features)
