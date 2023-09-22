@@ -109,7 +109,7 @@ page for more comprehensive inquiries.
 |[Androidx Material Design](https://developer.android.com/develop/ui/views/theming/look-and-feel)|`provides visual, motion, and interaction design across platforms and devices`|
 |[Androidx ConstraintLayout](https://developer.android.com/reference/androidx/constraintlayout/widget/ConstraintLayout)|`provides more UI control in Android Studio's Design Layouts`|
 |[Androidx JUnit](https://developer.android.com/training/testing/local-tests)|`provides support for JUnit testing framework`|
-|[Androidx Espresso](https://developer.android.com/training/testing/local-tests)|`provides support for UI unit testing`|
+|[Androidx Espresso](https://developer.android.com/training/testing/local-tests)|`provides support for UI unit testing`| 
 
 ## License
 Please review the following [license agreement](https://bumptech.github.io/glide/dev/open-source-licenses.html)
