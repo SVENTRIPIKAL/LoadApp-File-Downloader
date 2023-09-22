@@ -8,7 +8,7 @@
         <img alt="Kotlin Badge" src="https://img.shields.io/badge/Kotlin-100%25-LightPurple?style=plastic&logo=Kotlin&color=%238c53c6&link=https%3A%2F%2Fkotlinlang.org%2Fdocs%2Fandroid-overview.html"/>
         </a>
     <a href="https://developer.android.com/tools/releases/platforms">
-        <img alt="API Badge" src="https://img.shields.io/badge/API-24_–_33-LightGreen?style=plastic&logo=Android&color=%2379ff2f"/>
+        <img alt="API Badge" src="https://img.shields.io/badge/API-24_–_33-LightGreen?style=plastic&logo=Android&color=%233DDC84"/>
         </a></br>
     <a href="https://www.udacity.com/course/android-kotlin-developer-nanodegree--nd940">
         <img alt="Udacity Badge" src="https://img.shields.io/badge/Udacity-Android_Kotlin_Developer_Nanodegree-MediumPurple?style=plastic&logo=Udacity&logoColor=%236533cb&label=Udacity&color=%236533cb"/>
