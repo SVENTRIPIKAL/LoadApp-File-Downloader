@@ -99,8 +99,7 @@ download status, and a return to Main screen button.
 16. How to build & send notifications with Notification Manager, & apply Actions & Flags
 
 ## Dependencies
-`LoadApp` utilizes the following `libraries` to function properly. A brief `description` defining their usage is provided,  
-but each library is `hyperlinked` to their specific `documentation` page for more comprehensive inquiries.
+`LoadApp` utilizes the following `libraries` to function properly. A brief `description` defining their usage is provided, but each library is `hyperlinked` to their specific `documentation` page for more comprehensive inquiries.
 
 | **Library** | **Description** |
 | ------ | ------ |
