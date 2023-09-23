@@ -81,22 +81,22 @@ download status, and a return to Main screen button.
 5. `🌟` the `Repository` if you found this project helpful & `Follow` me for a follow back `🤝`
 
 ## TakeAways
-1. How to handle multiple API levels, exceptions, & anticipated user actions
-2. How to handle & override the back button with the onBackPressedDispatcher
-3. How to multi-thread & keep the UI thread unblocked by long-running IO tasks
-4. How to extend the View class to customize view attributes & animations
-5. How to paint on the Custom Canvas & allocate empty spaces for future painting
-6. How to create, send, & apply Intents & Pending Intents to Notification Builder
-7. How to create Notification Channels for API Levels 26 & Above
-8. How to animate Layout Views & create transitional sequences with MotionLayout
-9. How to use Androidx.Activity to allow the OS to request user permissions for you
-10. How to request user permissions manually via an Alert Dialog & Intent
-11. How to send information to other Activities as an Extra within an Intent
-12. How to create a new directory in External Public Directory & save data to it
-13. How to request & process HTTP Status Codes from URLs
-14. How to queue a request for download with Download Manager
-15. How to use the Broadcast Receiver to track & process Download Manager statuses
-16. How to build & send notifications with Notification Manager, & apply Actions & Flags
+1. How to handle multiple `API levels`, `exceptions`, & anticipated `user actions`
+2. How to handle & override the `back button` with the `onBackPressedDispatcher`
+3. How to `multi-thread` & keep the `UI thread` unblocked by long-running `IO tasks`
+4. How to `extend` the `View class` to customize view `attributes & animations`
+5. How to `paint` on the Custom `Canvas` & allocate empty spaces for future painting
+6. How to create, send, & apply `Intents` & `Pending Intents` to `Notification Builder`
+7. How to create `Notification Channels` for `API Levels 26 & Above`
+8. How to `animate` Layout `Views` & create `transitional sequences` with `MotionLayout`
+9. How to use `Androidx.Activity` to `allow` the `OS` to `request user permissions` for you
+10. How to `request user permissions manually` via an `Alert Dialog` & `Intent`
+11. How to `send information` to other Activities as an `Extra` within an `Intent`
+12. How to `create` a `new directory` in `External Public Directory` & `save data` to it
+13. How to `request` & `process HTTP Status Codes` from URLs
+14. How to `queue` a request for `download` with `Download Manager`
+15. How to use the `Broadcast Receiver` to `track & process` Download Manager `statuses`
+16. How to `build` & `send notifications` with `Notification Manager`, & apply `Actions & Flags`
 
 ## Dependencies
 `LoadApp` utilizes the following `libraries` to function properly. A brief `description` defining their usage is provided, but each library is `hyperlinked` to their specific `documentation` page for more comprehensive inquiries.
