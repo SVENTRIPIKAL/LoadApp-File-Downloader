@@ -105,14 +105,14 @@ inquiries.
 
 | **Library** | **Description** |
 | ------ | ------ |
-|[**Androidx Activity**](https://developer.android.com/jetpack/androidx/releases/activity)|`allows the OS system to manage permission request codes`|
-|[**Androidx Core-KTX**](https://developer.android.com/kotlin/ktx#core)|`provides Kotlin support for Android Framework & Support Libraries`|
-|[**Androidx AppCompat**](https://developer.android.com/jetpack/androidx/releases/appcompat)|`provides backwards compatibility for older API levels`|
-|[**Androidx Material Design**](https://developer.android.com/develop/ui/views/theming/look-and-feel)|`provides visual, motion, and interaction design across platforms and devices`|
-|[**Androidx ConstraintLayout**](https://developer.android.com/develop/ui/views/layout/constraint-layout)| `provides a flat view hierarchy when creating large, complex layouts`|
-|[**Androidx MotionLayout**](https://developer.android.com/develop/ui/views/animations/motionlayout)| `a subclass of ConstraintLayout that helps manage motion & widget animations`|
-|[**Androidx JUnit**](https://developer.android.com/training/testing/local-tests)|`provides local support for the JUnit testing framework`|
-|[**Androidx Espresso**](https://developer.android.com/training/testing/local-tests)|`provides support for UI unit testing`| 
+| [**Androidx Activity**](https://developer.android.com/jetpack/androidx/releases/activity) | `allows the OS system to manage permission request codes` |
+| [**Androidx Core-KTX**](https://developer.android.com/kotlin/ktx#core) | `provides Kotlin support for Android Framework & Support Libraries` |
+| [**Androidx AppCompat**](https://developer.android.com/jetpack/androidx/releases/appcompat) | `provides backwards compatibility for older API levels` |
+| [**Androidx Material Design**](https://developer.android.com/develop/ui/views/theming/look-and-feel) | `provides visual, motion, and interaction design across platforms and devices` |
+| [**Androidx ConstraintLayout**](https://developer.android.com/develop/ui/views/layout/constraint-layout) | `provides a flat view hierarchy when creating large, complex layouts` |
+| [**Androidx MotionLayout**](https://developer.android.com/develop/ui/views/animations/motionlayout) | `a subclass of ConstraintLayout that helps manage motion & widget animations` |
+| [**Androidx JUnit**](https://developer.android.com/training/testing/local-tests) | `provides local support for the JUnit testing framework` |
+| [**Androidx Espresso**](https://developer.android.com/training/testing/local-tests) | `provides support for UI unit testing` |
 
 ## License
 Please review the following [license agreement](https://bumptech.github.io/glide/dev/open-source-licenses.html)
