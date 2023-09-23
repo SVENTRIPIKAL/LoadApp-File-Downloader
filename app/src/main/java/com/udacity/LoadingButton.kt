@@ -43,7 +43,7 @@ class LoadingButton @JvmOverloads constructor(
     private val circleProgressColor: Int
 
     // button state
-    private var buttonState: ButtonState by Delegates.observable(ButtonState.UnClicked) { p, old, new -> }
+    private var buttonState: ButtonState by Delegates.observable(ButtonState.UnClicked) { _, _, _ -> }
 
     // animation values
     @Volatile
