@@ -52,7 +52,7 @@ class DetailActivity : AppCompatActivity() {
         }
 
         // assign FAB button click listener
-        binding.extendedFab.setOnClickListener {
+        binding.contentDetailActivity.extendedFab.setOnClickListener {
             // activate return to prior screen as a back press
             onBackPressedDispatcher.onBackPressed()
         }

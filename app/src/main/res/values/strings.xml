@@ -16,7 +16,7 @@
 
     <string name="button_download_text">Download</string>
     <string name="button_download_complete">Download Complete</string>
-    <string name="button_return_description">Return button</string>
+    <string name="button_return_description">Return</string>
 
     <string name="toast_select_file">Select A File To Download</string>
     <string name="toast_click_button">Click Button</string>

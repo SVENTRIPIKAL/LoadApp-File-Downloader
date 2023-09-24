@@ -22,19 +22,6 @@
 
     <include
         layout="@layout/content_detail"
-        android:id="@+id/content_detail_activity"
-        />
-
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/extended_fab"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:layout_gravity="bottom|center"
-        android:backgroundTint="@color/colorAccent"
-        android:textColor="@android:color/black"
-        android:contentDescription="@string/button_return_description"
-        android:text="@string/text_return"
-        android:textAlignment="center"/>
+        android:id="@+id/content_detail_activity" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
