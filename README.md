@@ -22,7 +22,7 @@
 </p>
 
 <p align="center">
-    <img src="https://github.com/SVENTRIPIKAL/LoadApp-File-Downloader/assets/90730468/153a0273-031a-4611-b5db-d93351f4a9a3" alt="App Logo"/>
+    <img src="previews/loadApp_banner.png" alt="App Logo"/>
 </p>
 
 ## Table of Contents
@@ -33,6 +33,8 @@
 - [TakeAways](#takeaways)
 - [Dependencies](#dependencies)
 - [License](#license)
+
+<img src="previews/loadApp_preview.gif" alt="App Video" align="right" width="260"/>
 
 ## Description
 This application downloads a file from the internet using `Download Manager`, saves the file to the user's `External Storage Public Directory`, and sends the user a `Notification` after completion. The download button provided on the Main screen is a `Custom Button` extending the `View` class which animates both horizontally and in a center-filled arc while the file downloads. Once completed, users can click on the notification content to navigate directly to their `Downloads` directory, or the notification's `Action Button` to navigate to a Details screen animated by `MotionLayout` which provides the downloaded file's name, final download status, and a return to Main screen button.
