@@ -27,20 +27,17 @@
 
 ## Table of Contents
 - [Description](#description)
-- [Inspiration](#inspiration)
 - [Features](#features)
 - [Installation](#installation)
 - [TakeAways](#takeaways)
 - [Dependencies](#dependencies)
+- [Inspiration](#inspiration)
 - [License](#license)
-
-<img src="previews/loadApp_preview.gif" alt="App Video" align="right" width="300"/>
 
 ## Description
 This application downloads a file from the internet using `Download Manager`, saves the file to the user's `External Storage Public Directory`, and sends the user a `Notification` after completion. The download button provided on the Main screen is a `Custom Button` extending the `View` class which animates both horizontally and in a center-filled arc while the file downloads. Once completed, users can click on the notification content to navigate directly to their `Downloads` directory, or the notification's `Action Button` to navigate to a Details screen animated by `MotionLayout` which provides the downloaded file's name, final download status, and a return to Main screen button.
 
-## Inspiration
-[***Project concept, starter code, & photo***](https://github.com/udacity/nd940-c3-advanced-android-programming-project-starter) provided by [***Udacity: Android Kotlin Developer Nanodegree***](https://www.udacity.com/course/android-kotlin-developer-nanodegree--nd940) course
+<img src="previews/loadApp_preview.gif" alt="App Video" align="right" width="300"/>
 
 ## Features
 - `Permission Request Codes` managed by the OS system via `Androidx.Activity` library
@@ -105,6 +102,9 @@ This application downloads a file from the internet using `Download Manager`, sa
 | [**Androidx MotionLayout**](https://developer.android.com/develop/ui/views/animations/motionlayout)      | `a subclass of ConstraintLayout that helps manage motion & widget animations`  |
 | [**Androidx JUnit**](https://developer.android.com/training/testing/local-tests)                         | `provides local support for the JUnit testing framework`                       |
 | [**Androidx Espresso**](https://developer.android.com/training/testing/local-tests)                      | `provides support for UI unit testing`                                         |
+
+## Inspiration
+[***Project concept, starter code, & photo***](https://github.com/udacity/nd940-c3-advanced-android-programming-project-starter) provided by [***Udacity: Android Kotlin Developer Nanodegree***](https://www.udacity.com/course/android-kotlin-developer-nanodegree--nd940) course
 
 ## License
 Please review the following [license agreement](https://bumptech.github.io/glide/dev/open-source-licenses.html)
