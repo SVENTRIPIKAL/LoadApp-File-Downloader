@@ -11,6 +11,7 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.udacity.DetailActivity
 import com.udacity.R
+import timber.log.Timber
 
 
 /**
@@ -33,6 +34,7 @@ const val SUCCESS_RESPONSE_OK = 200
 const val APP_DIR_NAME = "LOADAPP"
 const val FILE_NAME_EXTRA = "fileNameExtra"
 const val FILE_STATUS_EXTRA = "fileStatusExtra"
+const val TAG = "SVENTRIPIKAL"
 
 
 /**
@@ -40,6 +42,18 @@ const val FILE_STATUS_EXTRA = "fileStatusExtra"
  */
 fun isNotificationChannelRequired() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
 
+/**
+ * function adding convenience to timber logging via enum
+ */
+enum class Priority { ERROR, VERBOSE, DEBUG, INFO }
+fun timber(tag: String, message: String, priority: Priority) {
+    when (priority) {
+        Priority.ERROR -> Timber.tag(tag).e(message)
+        Priority.VERBOSE -> Timber.tag(tag).v(message)
+        Priority.DEBUG -> Timber.tag(tag).d(message)
+        Priority.INFO -> Timber.tag(tag).i(message)
+    }
+}
 
 /**
  * Extension function for sending notifications

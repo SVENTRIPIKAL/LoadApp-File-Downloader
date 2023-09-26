@@ -8,6 +8,9 @@ import com.udacity.databinding.ActivityDetailBinding
 import com.udacity.utils.FILE_NAME_EXTRA
 import com.udacity.utils.FILE_STATUS_EXTRA
 import com.udacity.utils.NOTIFICATION_ID
+import com.udacity.utils.Priority
+import com.udacity.utils.TAG
+import com.udacity.utils.timber
 
 class DetailActivity : AppCompatActivity() {
 
@@ -15,6 +18,8 @@ class DetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        timber(TAG, "ON-CREATE :${this::class.java.simpleName}", Priority.VERBOSE)
 
         // layout binding
         binding = ActivityDetailBinding.inflate(layoutInflater)
@@ -33,7 +38,8 @@ class DetailActivity : AppCompatActivity() {
         // assign file name to textView
         intent.extras?.getString(FILE_NAME_EXTRA).let {
             binding.contentDetailActivity.fileNameText.text = it
-            println(it)
+
+            timber(TAG, "$it :${this::class.java.simpleName}", Priority.INFO)
         }
 
         // assign file status and color to textView

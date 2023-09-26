@@ -18,11 +18,14 @@ import com.udacity.utils.CIRCLE_START_ANGLE
 import com.udacity.utils.CIRCLE_X_BIAS
 import com.udacity.utils.HALF
 import com.udacity.utils.ONE
+import com.udacity.utils.Priority
+import com.udacity.utils.TAG
 import com.udacity.utils.TEXT_SIZE
 import com.udacity.utils.TEXT_X_BIAS
 import com.udacity.utils.TEXT_Y_BIAS
 import com.udacity.utils.TOTAL_PROGRESS
 import com.udacity.utils.ZERO
+import com.udacity.utils.timber
 import kotlin.properties.Delegates
 
 class LoadingButton @JvmOverloads constructor(
@@ -66,7 +69,7 @@ class LoadingButton @JvmOverloads constructor(
     // initialize
     init {
 
-        println("INIT")
+        timber(TAG, "INIT :${this::class.java.simpleName}", Priority.VERBOSE)
 
         // read custom attributes for custom view
         context.theme.obtainStyledAttributes(
@@ -171,7 +174,9 @@ class LoadingButton @JvmOverloads constructor(
      *  and height for onDraw
      */
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        println("ON-MEASURE")
+
+        // timber - onMeasure
+        timber(TAG, "ON-MEASURE :${this::class.java.simpleName}", Priority.INFO)
 
         // total minimum width of view including L/R padding
         val minw: Int = paddingLeft + paddingRight + suggestedMinimumWidth
@@ -202,7 +207,9 @@ class LoadingButton @JvmOverloads constructor(
      *  to the canvas
      */
     override fun onDraw(canvas: Canvas) {
-        println("ON-DRAW")
+
+        // timber - onDraw
+        timber(TAG, "ON-DRAW :${this::class.java.simpleName}", Priority.DEBUG)
 
         // paint button on canvas
         paintButton(canvas)
@@ -241,7 +248,7 @@ class LoadingButton @JvmOverloads constructor(
      * paints button on canvas
      */
     private fun paintButton(canvas: Canvas) {
-        println("PAINT-BUTTON")
+        timber(TAG, "PAINT-BUTTON :${this::class.java.simpleName}", Priority.DEBUG)
 
         // update painter color
         updatePainter(buttonBackgroundColor)
@@ -273,7 +280,7 @@ class LoadingButton @JvmOverloads constructor(
      * paints button border on canvas
      */
     private fun paintBorder(canvas: Canvas) {
-        println("PAINT-BORDER")
+        timber(TAG, "PAINT-BORDER :${this::class.java.simpleName}", Priority.DEBUG)
 
         // update painter non-default attributes
         updatePainter(
@@ -297,7 +304,7 @@ class LoadingButton @JvmOverloads constructor(
      * paints button text on canvas
      */
     private fun paintText(canvas: Canvas) {
-        println("PAINT-TEXT")
+        timber(TAG, "PAINT-TEXT :${this::class.java.simpleName}", Priority.DEBUG)
 
         // assign & paint text
         when (buttonState) {

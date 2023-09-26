@@ -26,11 +26,14 @@ import androidx.core.app.NotificationManagerCompat
 import com.udacity.databinding.ActivityMainBinding
 import com.udacity.utils.APP_DIR_NAME
 import com.udacity.utils.ONE
+import com.udacity.utils.Priority
 import com.udacity.utils.SUCCESS_RESPONSE_OK
+import com.udacity.utils.TAG
 import com.udacity.utils.ZERO
 import com.udacity.utils.createChannel
 import com.udacity.utils.isNotificationChannelRequired
 import com.udacity.utils.sendNotification
+import com.udacity.utils.timber
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -126,7 +129,7 @@ class MainActivity : AppCompatActivity() {
 
         // execute this blocking coroutine scope in a separate background thread
         withContext(Dispatchers.IO) {
-            println("DISPATCHERS.IO - MAKEDIR")
+            timber(TAG,"DISPATCHERS.IO - MAKEDIR :${this::class.java.simpleName}", Priority.INFO)
 
             // get Downloads path
             val defaultDir = getString(
@@ -153,7 +156,7 @@ class MainActivity : AppCompatActivity() {
 
         // execute this blocking coroutine scope in a separate background thread
         withContext(Dispatchers.IO) {
-            println("DISPATCHERS.IO - DOWNLOAD")
+            timber(TAG,"DISPATCHERS.IO - DOWNLOAD :${this::class.java.simpleName}", Priority.INFO)
 
             try {
                 // check if url returns a response status code
@@ -161,7 +164,7 @@ class MainActivity : AppCompatActivity() {
                 //          java.net.MalformedURLException
                 val statusCode = getHttpResponseStatusCode()
 
-                println("getHttpResponseStatusCode PASSED")
+                timber(TAG,"getHttpResponseStatusCode PASSED :${this::class.java.simpleName}", Priority.DEBUG)
 
                 if (statusCode == SUCCESS_RESPONSE_OK) {
                     // execute file download queue
@@ -211,7 +214,8 @@ class MainActivity : AppCompatActivity() {
                         }
                         // print exception & message to console
                         else -> {
-                            println("$exception :: ${exception.message}")
+//                            println("$exception :: ${exception.message}")
+                            timber(TAG,"$exception :: ${exception.message} :${this::class.java.simpleName}", Priority.ERROR)
                         }
                     }
                 }
@@ -285,6 +289,8 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("UnspecifiedRegisterReceiverFlag")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        timber(TAG,"ON-CREATE :${this::class.java.simpleName}", Priority.VERBOSE)
 
         // layout binding
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -512,7 +518,7 @@ class MainActivity : AppCompatActivity() {
     private fun updateDownloadInfo(fileName: String, url: String) {
         fileNameExtra = fileName
         downloadUrl = url
-        println(fileNameExtra)
+        timber(TAG,"$fileNameExtra :${this::class.java.simpleName}", Priority.INFO)
     }
 
 
@@ -622,7 +628,7 @@ class MainActivity : AppCompatActivity() {
             val downloadId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -ONE.toLong())
 
 
-            println("$downloadFileId     $downloadId")
+            timber(TAG,"$downloadFileId - $downloadId :${this::class.java.simpleName}", Priority.INFO)
 
 
             // check download id and status of file
@@ -672,6 +678,35 @@ class MainActivity : AppCompatActivity() {
 
         // end animation & re-enable radio buttons
         endAnimationAllowSelections()
+    }
+
+
+    /**
+     * Lifecycle methods
+     */
+    override fun onStart() {
+        super.onStart()
+        timber(TAG, "ON-START :${this::class.java.simpleName}", Priority.INFO)      // blue
+    }
+
+    override fun onResume() {
+        super.onResume()
+        timber(TAG, "ON-RESUME :${this::class.java.simpleName}", Priority.DEBUG)    // green
+    }
+
+    override fun onPause() {
+        super.onPause()
+        timber(TAG, "ON-PAUSE :${this::class.java.simpleName}", Priority.INFO)      // blue
+    }
+
+    override fun onStop() {
+        super.onStop()
+        timber(TAG, "ON-STOP :${this::class.java.simpleName}", Priority.VERBOSE)    // white
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        timber(TAG, "ON-DESTROY :${this::class.java.simpleName}", Priority.ERROR)   // red
     }
 }
 

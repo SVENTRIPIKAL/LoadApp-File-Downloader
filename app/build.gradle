@@ -42,6 +42,11 @@ dependencies {
     def activityVersion = "1.7.2"
     implementation "androidx.activity:activity-ktx:$activityVersion"
 
+    // timber [log extension]
+    def timberVersion = "5.0.1"
+    implementation "com.jakewharton.timber:timber:$timberVersion"
+
+
     //noinspection GradleDependency
     implementation 'androidx.core:core-ktx:1.10.1'
     implementation 'androidx.appcompat:appcompat:1.6.1'
