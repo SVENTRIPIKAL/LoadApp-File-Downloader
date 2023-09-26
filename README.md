@@ -94,6 +94,7 @@ This application downloads a file from the internet using `Download Manager`, sa
 
 | **Library**                                                                                              | **Description**                                                                |
 |----------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------|
+| [**Timber**](https://github.com/JakeWharton/timber)                                                      | `an extensible API on top of Android's normal Log class`                       |
 | [**Androidx Activity**](https://developer.android.com/jetpack/androidx/releases/activity)                | `allows the OS system to manage permission request codes`                      |
 | [**Androidx Core-KTX**](https://developer.android.com/kotlin/ktx#core)                                   | `provides Kotlin support for Android Framework & Support Libraries`            |
 | [**Androidx AppCompat**](https://developer.android.com/jetpack/androidx/releases/appcompat)              | `provides backwards compatibility for older API levels`                        |
