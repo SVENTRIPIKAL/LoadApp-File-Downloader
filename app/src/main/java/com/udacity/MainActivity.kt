@@ -23,6 +23,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
 import com.udacity.databinding.ActivityMainBinding
 import com.udacity.utils.APP_DIR_NAME
 import com.udacity.utils.ONE
@@ -129,7 +130,7 @@ class MainActivity : AppCompatActivity() {
 
         // execute this blocking coroutine scope in a separate background thread
         withContext(Dispatchers.IO) {
-            timber(TAG,"DISPATCHERS.IO - MAKEDIR :${this::class.java.simpleName}", Priority.INFO)
+            timber(TAG,"MAKEDIR :${this::class.java.simpleName}", Priority.INFO)
 
             // get Downloads path
             val defaultDir = getString(
@@ -156,7 +157,7 @@ class MainActivity : AppCompatActivity() {
 
         // execute this blocking coroutine scope in a separate background thread
         withContext(Dispatchers.IO) {
-            timber(TAG,"DISPATCHERS.IO - DOWNLOAD :${this::class.java.simpleName}", Priority.INFO)
+            timber(TAG,"DOWNLOAD :${this::class.java.simpleName}", Priority.INFO)
 
             try {
                 // check if url returns a response status code
@@ -286,7 +287,6 @@ class MainActivity : AppCompatActivity() {
     /**
      *  oncreate function
      */
-    @SuppressLint("UnspecifiedRegisterReceiverFlag")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -303,7 +303,12 @@ class MainActivity : AppCompatActivity() {
         registerSystemServices()
 
         // register broadcast receiver
-        registerReceiver(receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
+        ContextCompat.registerReceiver(
+            this,
+            receiver,
+            IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE),
+            ContextCompat.RECEIVER_EXPORTED
+        )
 
         // register ui listeners
         setUIListeners()
@@ -628,7 +633,7 @@ class MainActivity : AppCompatActivity() {
             val downloadId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -ONE.toLong())
 
 
-            timber(TAG,"$downloadFileId - $downloadId :${this::class.java.simpleName}", Priority.INFO)
+            timber(TAG,"$downloadFileId - $downloadId", Priority.INFO)
 
 
             // check download id and status of file
