@@ -73,4 +73,33 @@ class DetailActivity : AppCompatActivity() {
     override fun onBackPressed() {
         // do nothing when OS back is pressed - returning is done via FAB
     }
+
+
+    /**
+     * Lifecycle methods
+     */
+    override fun onStart() {
+        super.onStart()
+        timber(TAG, "ON-START :${this::class.java.simpleName}", Priority.INFO)      // blue
+    }
+
+    override fun onResume() {
+        super.onResume()
+        timber(TAG, "ON-RESUME :${this::class.java.simpleName}", Priority.DEBUG)    // green
+    }
+
+    override fun onPause() {
+        super.onPause()
+        timber(TAG, "ON-PAUSE :${this::class.java.simpleName}", Priority.INFO)      // blue
+    }
+
+    override fun onStop() {
+        super.onStop()
+        timber(TAG, "ON-STOP :${this::class.java.simpleName}", Priority.VERBOSE)    // white
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        timber(TAG, "ON-DESTROY :${this::class.java.simpleName}", Priority.ERROR)   // red
+    }
 }
