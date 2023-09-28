@@ -302,14 +302,6 @@ class MainActivity : AppCompatActivity() {
         //register download & notification services
         registerSystemServices()
 
-        // register broadcast receiver
-        ContextCompat.registerReceiver(
-            this,
-            receiver,
-            IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE),
-            ContextCompat.RECEIVER_EXPORTED
-        )
-
         // register ui listeners
         setUIListeners()
     }
@@ -384,6 +376,14 @@ class MainActivity : AppCompatActivity() {
             this,
             getString(R.string.channel_id_download),
             getString(R.string.channel_name_download)
+        )
+
+        // register broadcast receiver
+        ContextCompat.registerReceiver(
+            this,
+            receiver,
+            IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE),
+            ContextCompat.RECEIVER_EXPORTED
         )
     }
 
@@ -711,7 +711,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+
+        // un-register broadcast receiver
+        unregisterReceiver(receiver)
+
         timber(TAG, "ON-DESTROY :${this::class.java.simpleName}", Priority.ERROR)   // red
     }
 }
-
